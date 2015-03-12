@@ -10,9 +10,9 @@ angular
 	.module('titanApp')
 	.factory('Feed', feedService);
 
-feedService.$inject('$firebase', '$q', 'Auth', 'FIREBASE_URL');
+feedService.$inject('$firebaseObject', '$firebaseArray', '$q', 'Auth', 'FIREBASE_URL');
 
-function feedService($firebase, $q, Auth, FIREBASE_URL) {
+function feedService($firebaseObj, $firebaseArr, $q, Auth, FIREBASE_URL) {
 	
 	var query = FIREBASE_URL + 'users/' + user.uid + '/feeds'; 	
 	var foo = {
@@ -35,7 +35,7 @@ function feedService($firebase, $q, Auth, FIREBASE_URL) {
 		
 		var deferred = $q.defer();
 		var ref = new Firebase(query);
-		var feeds = $firebase(ref).$asObject();
+		var feeds = $firebaseObj(ref);
 		
 		feeds.$loaded().then(function () {
 			feeds[feedObj.title] = feedObj;
@@ -65,16 +65,15 @@ function feedService($firebase, $q, Auth, FIREBASE_URL) {
 					query + '/' + feedTitle : 
 					query; 
 		var ref = new Firebase(query);
-		var sync = $firebase(ref)
 		
 		if (feedTitle) {
-			var feed = sync.$asObject().$loaded().then(function () {
+			var feed = $firebaseObj().$loaded().then(function () {
 				deferred.resolve(feed);
 			})catch(function (e) {
 				deferred.reject(e);
 			});
 		} else {
-			var feeds = sync.$asArray().$loaded().then(function () {
+			var feeds = $firebaseArr().$loaded().then(function () {
 				deferred.resolve(feeds);
 			}).catch(function (e) {
 				deferred.reject(e);
@@ -95,7 +94,7 @@ function feedService($firebase, $q, Auth, FIREBASE_URL) {
 		
 		var deferred = $q.defer();
 		var ref = new Firebase(query);
-		var feeds = $firebase(ref);
+		var feeds = $firebaseObj(ref);
 		
 		feeds[feedObj.title] = null;
 		feeds.$save().then(function () {
@@ -118,7 +117,7 @@ function feedService($firebase, $q, Auth, FIREBASE_URL) {
 		var deferred = $q.defer();
 		var query = query + '/' + feedTitle;
 		var ref = new Firebase(query);
-		var feed = $firebase(ref).$asObject();
+		var feed = $firebaseObj(ref);
 		
 		if (feedObj.hasOwnProperty("title")) {
 	
@@ -133,7 +132,7 @@ function feedService($firebase, $q, Auth, FIREBASE_URL) {
 				deferred.reject(e);
 			});
 		} else {
-			deferred.reject(e);
+			deferred.reject('Obj passed has no valid parameters');
 		}
 
 		return deferred.promise;

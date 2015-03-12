@@ -10,9 +10,9 @@ angular
 	.module('titanApp')
 	.factory('Auth', authService);
 
-authService.$inject('firebaseAuth');
+authService.$inject('$firebaseAuth');
 
-function authService (firebaseAuth) {
+function authService ($firebaseAuth) {
 	// body...
 }
 
