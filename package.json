@@ -1,7 +1,9 @@
 {
   "name": "titan",
   "version": "0.0.0",
-  "dependencies": {},
+  "dependencies": {
+    "angularfire": "^1.0.0"
+  },
   "repository": {},
   "devDependencies": {
     "grunt": "^0.4.5",

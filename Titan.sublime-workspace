@@ -1,0 +1,395 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"feed",
+				"feedTitle"
+			],
+			[
+				"catego",
+				"categories"
+			],
+			[
+				"cate",
+				"categoryTitle"
+			],
+			[
+				"categor",
+				"category"
+			],
+			[
+				"T",
+				"TypeError"
+			],
+			[
+				"defer",
+				"deferred"
+			],
+			[
+				"Airb",
+				"Airbag-Regular"
+			],
+			[
+				"Halo",
+				"HaloHandletter"
+			],
+			[
+				"font",
+				"font-family"
+			],
+			[
+				"Ultra",
+				"UltraLight"
+			],
+			[
+				"Aileron",
+				"Aileron-UltraLight"
+			]
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 138.0,
+		"selected_items":
+		[
+			[
+				"insta",
+				"Package Control: Install Package"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"instal",
+				"Package Control: Install Package"
+			],
+			[
+				"isntall",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 480.0
+	},
+	"console":
+	{
+		"height": 126.0,
+		"history":
+		[
+			"import urllib.request,os,hashlib; h = 'eb2297e1a458f27d836c04bb0cbaf282' + 'd0e7a3098092775ccb37ca9d6b2e4b7d'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/C/Users/Gerard/Documents/Projects/Titan",
+		"/C/Users/Gerard/Documents/Projects/Titan/app"
+	],
+	"file_history":
+	[
+		"/C/Users/Gerard/Documents/Projects/Titan/app/scripts/controllers/main.js",
+		"/C/Users/Gerard/Documents/Projects/Titan/README.md",
+		"/C/Users/Gerard/Documents/Projects/Titan/bower_components/angular-route/angular-route.js",
+		"/C/Users/Gerard/Documents/Projects/Titan/app/scripts/controllers/about.js",
+		"/C/Users/Gerard/Documents/Projects/Titan/app/views/about.html",
+		"/C/Users/Gerard/Documents/Projects/Titan/node_modules/grunt-autoprefixer/node_modules/autoprefixer-core/node_modules/caniuse-db/features-json/atob-btoa.json",
+		"/C/Users/Gerard/Documents/Projects/Titan/app/scripts/app.js",
+		"/C/Users/Gerard/Documents/Projects/Titan/test/spec/controllers/main.js",
+		"/C/Users/Gerard/Documents/Projects/Titan/node_modules/karma/node_modules/http-proxy/test/core/simple/test-http-many-keep-alive-connections.js",
+		"/C/Users/Gerard/Documents/Projects/Titan/node_modules/grunt-contrib-uglify/node_modules/uglify-js/tmp/test-moz-ast.js",
+		"/C/Users/Gerard/Documents/Projects/Titan/node_modules/grunt/node_modules/colors/test.js",
+		"/C/Users/Gerard/Documents/Projects/Titan/node_modules/grunt/node_modules/rimraf/test/test-sync.js",
+		"/C/Users/Gerard/Documents/Projects/Titan/node_modules/grunt-contrib-jshint/node_modules/jshint/node_modules/shelljs/src/toEnd.js",
+		"/C/Users/Gerard/Documents/Projects/Titan/Titan.sublime-project",
+		"/C/Users/Gerard/Documents/Projects/Titan/node_modules/grunt-contrib-imagemin/node_modules/imagemin/node_modules/through2/node_modules/xtend/.jshintrc",
+		"/C/Users/Gerard/Documents/Projects/Titan/node_modules/karma/node_modules/socket.io/node_modules/socket.io-client/lib/vendor/web-socket-js/flash-src/WebSocketEvent.as",
+		"/C/Users/Gerard/Documents/Projects/Titan/node_modules/karma/node_modules/socket.io/node_modules/socket.io-client/node_modules/uglify-js/test/testparser.js",
+		"/C/Users/Gerard/Documents/Projects/Titan/node_modules/karma/node_modules/socket.io/node_modules/socket.io-client/node_modules/uglify-js/test/beautify.js",
+		"/C/Users/Gerard/Documents/Projects/Titan/node_modules/grunt-contrib-imagemin/node_modules/imagemin/node_modules/imagemin-gifsicle/node_modules/gifsicle/node_modules/bin-wrapper/node_modules/npm-installed/node_modules/rc/node_modules/.bin/strip-json-comments",
+		"/C/Users/Gerard/Documents/Projects/Titan/node_modules/grunt-contrib-cssmin/node_modules/maxmin/node_modules/gzip-size/node_modules/browserify-zlib/node_modules/pako/.jshintignore",
+		"/C/Users/Gerard/Documents/Projects/Titan/app/views/main.html",
+		"/C/Users/Gerard/Documents/Projects/Titan/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/lib/argument_parser.js",
+		"/C/Users/Gerard/Documents/Projects/Titan/node_modules/grunt/appveyor.yml",
+		"/C/Users/Gerard/Documents/Projects/Titan/app/robots.txt",
+		"/C/Users/Gerard/Documents/Projects/Titan/node_modules/grunt-autoprefixer/node_modules/autoprefixer-core/node_modules/postcss/lib/previous-map.js",
+		"/C/Users/Gerard/Documents/Projects/Titan/node_modules/karma/node_modules/http-proxy/lib/node-http-proxy/routing-proxy.js",
+		"/C/Users/Gerard/Documents/Projects/Titan/node_modules/grunt-autoprefixer/node_modules/autoprefixer-core/node_modules/postcss/node_modules/source-map/test/run-tests.js",
+		"/C/Users/Gerard/Documents/Projects/Titan/app/.buildignore",
+		"/C/Users/Gerard/Documents/Projects/Titan/node_modules/karma/node_modules/http-proxy/test/http/routing-table-test.js",
+		"/C/Users/Gerard/Documents/Projects/Titan/node_modules/karma-phantomjs-launcher/node_modules/phantomjs/node_modules/request/node_modules/oauth-sign/package.json",
+		"/C/Users/Gerard/Documents/Projects/Titan/node_modules/grunt-contrib-jshint/node_modules/jshint/data/ascii-identifier-data.js",
+		"/C/Users/Gerard/Documents/Projects/Titan/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/lib/help/added_formatters.js",
+		"/C/Users/Gerard/Documents/Projects/Titan/bower_components/angular-route/angular-route.min.js",
+		"/C/Users/Gerard/Documents/Projects/Titan/bower_components/angular-route/angular-route.min.js.map",
+		"/C/Users/Gerard/Documents/Projects/Titan/node_modules/grunt-ng-annotate/node_modules/ng-annotate/tests/ngmin-tests/repo/route-provider.js",
+		"/C/Users/Gerard/Documents/Projects/Titan/node_modules/grunt-ng-annotate/node_modules/ng-annotate/build/es5/tests/ngmin-tests/repo/route-provider.js",
+		"/C/Users/Gerard/Documents/Projects/Titan/node_modules/karma/node_modules/http-proxy/test/ws/routing-table-test.js",
+		"/C/Users/Gerard/Documents/Projects/Titan/node_modules/grunt-svgmin/node_modules/svgo/plugins/moveGroupAttrsToElems.js",
+		"/C/Users/Gerard/Documents/Projects/Titan/node_modules/karma-phantomjs-launcher/node_modules/phantomjs/lib/phantom/examples/outputEncoding.coffee",
+		"/C/Users/Gerard/Documents/Projects/Titan/node_modules/karma-phantomjs-launcher/node_modules/phantomjs/lib/phantom/examples/outputEncoding.js",
+		"/C/Users/Gerard/Documents/Projects/Titan/node_modules/grunt-google-cdn/node_modules/google-cdn/node_modules/regexp-quote/regexp-quote.js",
+		"/C/Users/Gerard/Documents/Projects/Titan/node_modules/grunt-contrib-imagemin/node_modules/imagemin/node_modules/imagemin-svgo/node_modules/svgo/plugins/moveGroupAttrsToElems.js",
+		"/C/Users/Gerard/Documents/Projects/Titan/bower_components/angular-route/.bower.json",
+		"/C/Users/Gerard/Documents/Projects/Titan/bower_components/angular-route/bower.json",
+		"/C/Users/Gerard/Documents/Projects/Titan/node_modules/grunt-google-cdn/node_modules/bower/node_modules/retry/lib/retry_operation.js",
+		"/C/Users/Gerard/Documents/Projects/Titan/app/index.html",
+		"/C/Users/Gerard/Documents/Projects/rssReaderApp/app/scripts/services/categoryManager.js",
+		"/C/Users/Gerard/Documents/Projects/rssReaderApp/app/index.html",
+		"/C/Users/Gerard/Documents/Projects/rssReaderApp/app/scripts/controllers/accountPage.js",
+		"/C/Users/Gerard/Documents/Projects/rssReaderApp/node_modules/grunt-cli/AUTHORS",
+		"/C/Users/Gerard/Documents/Projects/rssReaderApp/bower_components/google-apis/google-youtube-api.html",
+		"/C/Users/Gerard/Documents/Projects/rssReaderApp/node_modules/grunt-autoprefixer/node_modules/autoprefixer-core/node_modules/caniuse-db/features-json/css-image-orientation.json",
+		"/C/Users/Gerard/Documents/Projects/rssReaderApp/node_modules/grunt-autoprefixer/node_modules/autoprefixer-core/node_modules/caniuse-db/region-usage-json/YE.json",
+		"/C/Users/Gerard/Documents/Projects/rssReaderApp/node_modules/grunt-svgmin/node_modules/svgo/node_modules/js-yaml/node_modules/argparse/node_modules/lodash/collection/indexBy.js",
+		"/C/Users/Gerard/Documents/Projects/rssReaderApp/node_modules/grunt-autoprefixer/node_modules/autoprefixer-core/node_modules/caniuse-db/region-usage-json/YT.json",
+		"/C/Users/Gerard/Documents/Projects/rssReaderApp/app/scripts/services/feedLoader.js",
+		"/C/Users/Gerard/Documents/Projects/rssReaderApp/node_modules/grunt-autoprefixer/node_modules/autoprefixer-core/node_modules/caniuse-db/features-json/script-defer.json",
+		"/C/Users/Gerard/Documents/Projects/rssReaderApp/app/views/feeds.html",
+		"/C/Users/Gerard/Documents/Projects/rssReaderApp/node_modules/bower/node_modules/fstream-ignore/node_modules/minimatch/test/extglob-ending-with-state-char.js",
+		"/C/Users/Gerard/Documents/Projects/rssReaderApp/app/scripts/services/account.js",
+		"/C/Users/Gerard/Documents/Projects/rssReaderApp/bower_components/angular/angular-csp.css",
+		"/C/Users/Gerard/Documents/Projects/rssReaderApp/app/data/feedly.opml",
+		"/C/Users/Gerard/Documents/Projects/rssReaderApp/node_modules/bower/node_modules/mout/array/forEach.js",
+		"/C/Users/Gerard/Documents/Projects/personalWebsite/node_modules/grunt-contrib-jshint/node_modules/jshint/node_modules/htmlparser2/lib/FeedHandler.js",
+		"/C/Users/Gerard/Documents/Projects/personalWebsite/node_modules/grunt-contrib-jshint/node_modules/jshint/node_modules/htmlparser2/test/03-feed.js",
+		"/C/Users/Gerard/Documents/Projects/personalWebsite/node_modules/grunt-autoprefixer/node_modules/autoprefixer/node_modules/caniuse-db/features-json/css-crisp-edges.json",
+		"/C/Users/Gerard/Documents/Projects/personalWebsite/node_modules/grunt-google-cdn/node_modules/bower/node_modules/fstream-ignore/node_modules/minimatch/test/extglob-ending-with-state-char.js",
+		"/C/Users/Gerard/Documents/Projects/personalWebsite/node_modules/grunt/node_modules/findup-sync/node_modules/glob/node_modules/minimatch/test/extglob-ending-with-state-char.js",
+		"/C/Users/Gerard/Documents/Projects/personalWebsite/node_modules/grunt-google-cdn/node_modules/bower/node_modules/mout/array/forEach.js",
+		"/C/Users/Gerard/Documents/Projects/personalWebsite/node_modules/grunt-filerev/tasks/filerev.js",
+		"/C/Users/Gerard/Documents/Projects/personalWebsite/node_modules/grunt-autoprefixer/node_modules/autoprefixer/node_modules/fs-extra/node_modules/rimraf/node_modules/glob/node_modules/minimatch/node_modules/brace-expansion/test/dollar.js",
+		"/C/Users/Gerard/Documents/Projects/personalWebsite/node_modules/grunt-autoprefixer/node_modules/autoprefixer/node_modules/caniuse-db/features-json/download.json",
+		"/C/Users/Gerard/Documents/Projects/personalWebsite/node_modules/grunt-autoprefixer/node_modules/autoprefixer/node_modules/caniuse-db/features-json/domcontentloaded.json",
+		"/C/Users/Gerard/Documents/Projects/personalWebsite/app/styles/main.scss",
+		"/C/Users/Gerard/Documents/Projects/personalWebsite/app/index.html",
+		"/C/Users/Gerard/Documents/Projects/personalWebsite/app/views/main.html",
+		"/C/Users/Gerard/Documents/Projects/personalWebsite/.sass-cache/ef2bd364cd3f99d4098f001e9c77c97c0827aa3f/main.scssc",
+		"/C/Users/Gerard/Documents/Projects/personalWebsite/node_modules/grunt-newer/test/integration/newer-modify-none.spec.js",
+		"/C/Users/Gerard/Documents/Projects/personalWebsite/bower_components/angular-mocks/ngAnimateMock.js",
+		"/C/Users/Gerard/Documents/Projects/personalWebsite/node_modules/grunt-contrib-jshint/node_modules/jshint/data/non-ascii-identifier-start.js",
+		"/C/Users/Gerard/Documents/Projects/personalWebsite/node_modules/grunt-contrib-uglify/node_modules/uglify-js/lib/mozilla-ast.js",
+		"/C/Users/Gerard/Documents/Projects/personalWebsite/bower_components/es5-shim/Makefile",
+		"/C/Users/Gerard/Documents/Projects/personalWebsite/node_modules/grunt-contrib-clean/AUTHORS",
+		"/C/Users/Gerard/AppData/Roaming/Sublime Text 3/Packages/User/Preferences.sublime-settings",
+		"/C/Users/Gerard/Documents/Projects/personalWebsite/node_modules/grunt-google-cdn/node_modules/bower/node_modules/mout/lang/isNull.js",
+		"/C/Users/Gerard/AppData/Roaming/Sublime Text 3/Packages/User/Default (Windows).sublime-keymap"
+	],
+	"find":
+	{
+		"height": 23.0
+	},
+	"find_in_files":
+	{
+		"height": 92.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"categories",
+			"categoryTitle",
+			"this.auth",
+			"auth",
+			"function_name",
+			"obj.user",
+			"this.user",
+			"user",
+			"categories[idNewCategory]",
+			"categories[idOldCategory].feeds[idFeed]",
+			"categories[idNewCategory]",
+			"Account.updateAccount",
+			"Account.accountUpdate",
+			"accounts",
+			"this.account",
+			"Account.account.categories",
+			"Account.account",
+			"accountUpdate",
+			"Account.account",
+			"this",
+			"$",
+			"initializeFeeds",
+			"initializeCategory",
+			"feed",
+			"Feed",
+			"feed",
+			"date",
+			"h1"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": true,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 23.0
+	},
+	"input":
+	{
+		"height": 32.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"project": "Titan.sublime-project",
+	"replace":
+	{
+		"height": 42.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+			[
+				"about",
+				"app\\scripts\\controllers\\about.js"
+			],
+			[
+				"testmain",
+				"test\\spec\\controllers\\main.js"
+			],
+			[
+				"main",
+				"app\\scripts\\controllers\\main.js"
+			],
+			[
+				"app",
+				"app\\scripts\\app.js"
+			],
+			[
+				"route",
+				"bower_components\\angular-route\\angular-route.js"
+			],
+			[
+				"auth",
+				"app\\scripts\\angularfire\\auth.js"
+			],
+			[
+				"index",
+				"app\\index.html"
+			],
+			[
+				"index.",
+				"app\\index.html"
+			],
+			[
+				"accountp",
+				"app\\scripts\\controllers\\accountPage.js"
+			],
+			[
+				"auth.js",
+				"app\\scripts\\angularfire\\auth.js"
+			],
+			[
+				"account",
+				"app\\scripts\\services\\account.js"
+			],
+			[
+				"feedloade",
+				"app\\scripts\\services\\feedLoader.js"
+			],
+			[
+				"feedloa",
+				"app\\scripts\\services\\feedLoader.js"
+			],
+			[
+				"main.scss",
+				"app\\styles\\main.scss"
+			],
+			[
+				"main.html",
+				"app\\views\\main.html"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 150.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
