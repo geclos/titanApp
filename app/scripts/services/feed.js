@@ -1,12 +1,20 @@
-/**
-* titanApp Module
-*
-* Description
-*/
-angular.module('titanApp').factory('Feed', feedService);
-
-function feedService () {
+(function () {
 	'use strict';
 	
-	// body...
-}
+	/**
+	* titanApp Module
+	*
+	* Description
+	*/
+	angular.module('titanApp').factory('Feed', feedService);
+
+	function feedService() {
+		return {
+			getFeed : getFeed
+		};
+
+		function getFeed() {
+			return 'Hello World!'; 
+		}
+	}
+})();
