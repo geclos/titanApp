@@ -10,7 +10,9 @@
 	 */
 	angular.module('titanApp').controller('MainCtrl', mainCtrl);
 
-	function mainCtrl () {
+	mainCtrl.$inject('Account', 'AuthCurrent', 'Feed');
+	
+	function mainCtrl (Account, AuthCurrent, Feed) {
 		// body...
 	}
 })();

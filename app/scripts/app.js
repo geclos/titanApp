@@ -23,7 +23,10 @@
         .when('/', {
           templateUrl: 'views/main.html',
           controller: 'MainCtrl',
-          controllerAs: 'vm'
+          controllerAs: 'vm',
+          resolve: {
+            AuthCurrent: function () { return Auth.login(); }
+          }
         })
         .otherwise({
           redirectTo: '/'

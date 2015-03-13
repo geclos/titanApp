@@ -6,24 +6,28 @@
 *
 * Description
 */
-angular
-	.module('titanApp')
+angular.module('titanApp')
 	.factory('Feed', feedService);
 
-feedService.$inject('$firebaseObject', '$firebaseArray', '$q', 'Auth', 'FIREBASE_URL');
+feedService.$inject('$firebaseObject', '$firebaseArray', '$q', 'FIREBASE_URL');
 
-function feedService($firebaseObj, $firebaseArr, $q, Auth, FIREBASE_URL) {
+function feedService($firebaseObj, $firebaseArr, $q, FIREBASE_URL) {
 	
 	// TODO: Add user authentication
-	var query = FIREBASE_URL + 'users/' + user.uid + '/feeds'; 	
-	var foo = {
-		publicAddFeed : publicAddFeed,
-		publicGetFeed : publicGetFeed,
-		publicRemoveFeed : publicRemoveFeed,
-		publicUpdateFeed : publicUpdateFeed
+	var query = FIREBASE_URL; 	
+	var service = {
+		start : publicStart,
+		AddFeed : publicAddFeed,
+		GetFeed : publicGetFeed,
+		RemoveFeed : publicRemoveFeed,
+		UpdateFeed : publicUpdateFeed
 	};
 
-	return foo;
+	return service;
+
+	function publicStart (user.uid) {
+		query = query + 'users/' + user.uid + '/feeds';
+	}
 
 	function publicAddFeed(feedObj) {
 		try {
@@ -35,7 +39,7 @@ function feedService($firebaseObj, $firebaseArr, $q, Auth, FIREBASE_URL) {
 		}
 		
 		var promise = publicGetFeed()
-			.then(function (feedsArr) { addFeed(feedsArr); })
+			.then(function (feedsArr) { addFeed(feedsArr, feedObj); })
 			.catch(function () { console.log('e'); });
 
 		return promise;
@@ -78,18 +82,17 @@ function feedService($firebaseObj, $firebaseArr, $q, Auth, FIREBASE_URL) {
 			console.log(e);
 		}
 		
-		var promise = publicGetFeed()
-			.then(function (feedsArr) { removeFeed(feedsArr); })
+		var promise = publicGetFeed(feedTitle)
+			.then(function (feedObj) { removeFeed(feedObj); })
 			.catch(function (e) { console.log('e'); });
 
 		return promise;
-
 	}
 	
 	// TODO Review implementation of feedObj with several properties 
-	function publicUpdateFeed(newTitle, obj) {
+	function publicUpdateFeed(feedTitle, obj) {
 		try {
-			if (arguments.length !== 2 || typeof newTitle !== 'string' || 
+			if (arguments.length !== 2 || typeof feedTitle !== 'string' || 
 				typeof obj !== 'object') {
 				throw new Error('Arguments do not match specification');
 			}
@@ -98,11 +101,8 @@ function feedService($firebaseObj, $firebaseArr, $q, Auth, FIREBASE_URL) {
 		}
 
 		if (obj.hasOwnProperty('title')) {
-			var promise = publicGetFeed()
-				.then(function (feedObj) {
-					feedObj['title'] = newTitle;
-					return syncChanges(feedObj);
-				})
+			var promise = publicGetFeed(feedTitle)
+				.then(function (feedObj) { return changeFeedTitle(feedObj, obj.title); })
 				.catch(function (e) { console.log('e'); });
 			
 			return promise;
@@ -129,10 +129,9 @@ function feedService($firebaseObj, $firebaseArr, $q, Auth, FIREBASE_URL) {
 		return deferred.promise;
 	}
 	
-	function removeFeed (feedsArr, feedObj) {
+	function removeFeed (feedObj) {
 		var deferred = $q.defer();
-		var query = feedsArr.indexOf(feedObj);
-		feedsArr.$remove(query)
+		feedObj.$remove()
 			.then(function () { deferred.resolve(); })
 			.catch(function () { deferred.reject();	});
 
