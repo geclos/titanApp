@@ -37,7 +37,8 @@ module.exports = function(config) {
 
     // list of files / patterns to exclude
     exclude: [
-      './app/scripts/controllers/*.js'
+      './app/scripts/controllers/*.js',
+      './test/spec/services/*.js'
     ],
 
     // web server port

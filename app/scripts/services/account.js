@@ -14,6 +14,7 @@ accountService.$inject = ['$firebaseObject', '$log', '$q', 'FIREBASE_URL'];
 function accountService ($firebaseObj, $log, $q, FIREBASE_URL) {
 	var ref = new Firebase(FIREBASE_URL); //jshint ignore:line
 	var service = {
+		ref : ref,
 		getAccount : publicGetAccount
 	};
 
