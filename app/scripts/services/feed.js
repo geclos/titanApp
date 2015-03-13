@@ -9,7 +9,7 @@
 angular.module('titanApp')
 	.factory('Feed', feedService);
 
-feedService.$inject('$firebaseObject', '$firebaseArray', '$q', 'FIREBASE_URL');
+feedService.$inject = ['$firebaseObject', '$firebaseArray', '$q', 'FIREBASE_URL'];
 
 function feedService($firebaseObj, $firebaseArr, $q, FIREBASE_URL) {
 	
@@ -25,8 +25,8 @@ function feedService($firebaseObj, $firebaseArr, $q, FIREBASE_URL) {
 
 	return service;
 
-	function publicStart (user.uid) {
-		query = query + 'users/' + user.uid + '/feeds';
+	function publicStart(userID) {
+		query = query + 'users/' + userID + '/feeds';
 	}
 
 	function publicAddFeed(feedObj) {
@@ -39,7 +39,7 @@ function feedService($firebaseObj, $firebaseArr, $q, FIREBASE_URL) {
 		}
 		
 		var promise = publicGetFeed()
-			.then(function (feedsArr) { addFeed(feedsArr, feedObj); })
+			.then(function (feedsArr) { return addFeed(feedsArr, feedObj); })
 			.catch(function () { console.log('e'); });
 
 		return promise;
@@ -111,14 +111,6 @@ function feedService($firebaseObj, $firebaseArr, $q, FIREBASE_URL) {
 		}
 	}
 	
-	function syncChanges(feed) {
-		var deferred = $q.defer();
-		feed.$save()
-			.then(function () {	deferred.resolve();	})
-			.catch(function (e) { deferred.reject(e); });
-		
-		return deferred.promise;
-	}
 	
 	function addFeed (feedsArr, feedObj) {
 		var deferred = $q.defer();
@@ -140,7 +132,21 @@ function feedService($firebaseObj, $firebaseArr, $q, FIREBASE_URL) {
 	
 	function changeFeedTitle (feedObj, newTitle) {
 		feedObj['title'] = newTitle;
-		return syncChanges(feedObj);
+		var promise = syncChanges(feedObj)
+			.then(function (promise) {
+				return promise
+			});
+
+		return promise;
+	}
+	
+	function syncChanges(feed) {
+		var deferred = $q.defer();
+		feed.$save()
+			.then(function () {	deferred.resolve();	})
+			.catch(function (e) { deferred.reject(e); });
+		
+		return deferred.promise;
 	}
 }
 })();

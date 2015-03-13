@@ -9,7 +9,7 @@
 angular.module('titanApp')
 	.factory('Account', accountService);
 
-accountService.$inject('$firebaseObject', '$log', '$q', 'FIREBASE_URL');
+accountService.$inject = ['$firebaseObject', '$log', '$q', 'FIREBASE_URL'];
 
 function accountService ($firebaseObj, $log, $q, FIREBASE_URL) {
 	var ref = new Firebase(FIREBASE_URL); //jshint ignore:line
@@ -20,7 +20,7 @@ function accountService ($firebaseObj, $log, $q, FIREBASE_URL) {
 	return service;
 
 	function publicGetAccount (authData) {
-		var account = $firebaseObj(ref)
+		var account = $firebaseObj(ref).$loaded()
 			.then(function (sync) { return getAccount(sync, authData); })
 			.catch(function (e) { $log.error(e); });
 
@@ -28,25 +28,22 @@ function accountService ($firebaseObj, $log, $q, FIREBASE_URL) {
 	}
 
 	function getAccount (sync, authData) {
-		var account = {};
 		if (sync.hasOwnProperty(authData.uid)) {
-			account = sync[authData.uid];
+			return sync[authData.uid];
 		} else {
-			account = createAccount(sync, authData)
-				.then(function (data) { return data; });
+			var promise = createAccount(sync, authData)
+				.then(function (promise) { return promise; });
+			return promise;
 		}
-
-		return account;
 	}
 
 	function createAccount (sync, authData) {
 
-		// Customize info saved in the account obbject
 		sync[authData.uid] = authData;
-		var account = syncChanges(sync)
-			.then(function () { return sync[authData.uid]; });
+		var promise = syncChanges(sync)
+			.then(function (promise) { return promise; });
 
-		return account;
+		return promise;
 	}
 
 	function syncChanges (sync) {

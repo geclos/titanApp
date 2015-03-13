@@ -25,7 +25,7 @@
           controller: 'MainCtrl',
           controllerAs: 'vm',
           resolve: {
-            AuthCurrent: function () { return Auth.login(); }
+            // AuthCurrent: function () { return Auth.login(); }
           }
         })
         .otherwise({

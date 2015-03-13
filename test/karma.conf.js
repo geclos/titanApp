@@ -26,12 +26,18 @@ module.exports = function(config) {
       'bower_components/angular-route/angular-route.js',
       'bower_components/angular-sanitize/angular-sanitize.js',
       'bower_components/angular-touch/angular-touch.js',
+      'bower_components/firebase/firebase.js',
+      'bower_components/angularfire/dist/angularfire.js',
       'bower_components/angular-mocks/angular-mocks.js',
+      'bower_components/mockfirebase/browser/mockfirebase.js',
       // endbower
+      './app/scripts/**/*.js',
+      './test/**/*.js'
     ],
 
     // list of files / patterns to exclude
     exclude: [
+      './app/scripts/controllers/*.js'
     ],
 
     // web server port
@@ -52,7 +58,7 @@ module.exports = function(config) {
     // Which plugins to enable
     plugins: [
       'karma-phantomjs-launcher',
-      'karma-jasmine'
+      'karma-jasmine',
     ],
 
     // Continuous Integration mode

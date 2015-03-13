@@ -9,7 +9,7 @@
 angular.module('titanApp')
 	.factory('Auth', authService);
 
-authService.$inject('$firebaseAuth', '$log', '$q', 'FIREBASE_URL');
+authService.$inject = ['$firebaseAuth', '$log', '$q', 'FIREBASE_URL'];
 
 function authService ($firebaseAuth, $log, $q, FIREBASE_URL) {
 	var ref = new Firebase(FIREBASE_URL); //jshint ignore:line

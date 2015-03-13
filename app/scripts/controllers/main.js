@@ -8,9 +8,10 @@
 	 * # MainCtrl
 	 * Controller of the titanApp
 	 */
-	angular.module('titanApp').controller('MainCtrl', mainCtrl);
+	angular.module('titanApp')
+		.controller('MainCtrl', mainCtrl);
 
-	mainCtrl.$inject('Account', 'AuthCurrent', 'Feed');
+	mainCtrl.$inject = ['Account', 'AuthCurrent', 'Feed'];
 	
 	function mainCtrl (Account, AuthCurrent, Feed) {
 		// body...
