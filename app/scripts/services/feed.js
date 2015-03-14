@@ -13,10 +13,8 @@ feedService.$inject = ['$firebaseObject', '$firebaseArray', '$q', 'FIREBASE_URL'
 
 function feedService($firebaseObj, $firebaseArr, $q, FIREBASE_URL) {
 	
-	// TODO: Add user authentication
 	var query = FIREBASE_URL; 	
 	var service = {
-		start : publicStart,
 		AddFeed : publicAddFeed,
 		GetFeed : publicGetFeed,
 		RemoveFeed : publicRemoveFeed,
@@ -25,9 +23,9 @@ function feedService($firebaseObj, $firebaseArr, $q, FIREBASE_URL) {
 
 	return service;
 
-	function publicStart(userID) {
-		query = query + 'users/' + userID + '/feeds';
-	}
+	$rootScope.$on('userAuth', function (userID) {
+		query = query + '/' + userID + '/feeds';
+	});
 
 	function publicAddFeed(feedObj) {
 		try {
@@ -61,11 +59,11 @@ function feedService($firebaseObj, $firebaseArr, $q, FIREBASE_URL) {
 		var ref = new Firebase(query); //jshint ignore:line
 		
 		if (feedTitle) {
-			var feed = $firebaseObj().$loaded()
+			var feed = $firebaseObj(ref).$loaded()
 				.then(function () { deferred.resolve(feed); })
 				.catch(function (e) { deferred.reject(e); });
 		} else {
-			var feeds = $firebaseArr().$loaded()
+			var feeds = $firebaseArr(ref).$loaded()
 				.then(function () { deferred.resolve(feeds); })
 				.catch(function (e) { deferred.reject(e); });
 		}

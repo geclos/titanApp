@@ -5,7 +5,7 @@
 		[
 			[
 				"feed",
-				"feedTitle"
+				"feedObj"
 			],
 			[
 				"catego",
@@ -51,19 +51,59 @@
 	},
 	"buffers":
 	[
+		{
+			"file": "app/scripts/controllers/main.js",
+			"settings":
+			{
+				"buffer_size": 642,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "app/scripts/app.js",
+			"settings":
+			{
+				"buffer_size": 1022,
+				"line_ending": "Windows"
+			}
+		}
 	],
 	"build_system": "",
 	"command_palette":
 	{
-		"height": 138.0,
+		"height": 363.0,
 		"selected_items":
 		[
 			[
-				"insta",
-				"Package Control: Install Package"
+				"pvr",
+				"PackageResourceViewer: Open Resource"
+			],
+			[
+				"prv",
+				"PackageResourceViewer: Open Resource"
 			],
 			[
 				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"list pac",
+				"Package Control: List Packages"
+			],
+			[
+				"syntax javasc",
+				"Set Syntax: JavaScript"
+			],
+			[
+				"emmet",
+				"Set Syntax: Emmet"
+			],
+			[
+				"syntax angul",
+				"Set Syntax: HTML (Angular.js)"
+			],
+			[
+				"insta",
 				"Package Control: Install Package"
 			],
 			[
@@ -97,17 +137,44 @@
 	"expanded_folders":
 	[
 		"/C/Users/Gerard/Documents/Projects/Titan",
-		"/C/Users/Gerard/Documents/Projects/Titan/app"
+		"/C/Users/Gerard/Documents/Projects/Titan/app",
+		"/C/Users/Gerard/Documents/Projects/Titan/app/scripts",
+		"/C/Users/Gerard/Documents/Projects/Titan/app/styles"
 	],
 	"file_history":
 	[
-		"/C/Users/Gerard/Documents/Projects/Titan/app/scripts/controllers/main.js",
-		"/C/Users/Gerard/Documents/Projects/Titan/README.md",
 		"/C/Users/Gerard/Documents/Projects/Titan/bower_components/angular-route/angular-route.js",
+		"/C/Users/Gerard/Documents/Projects/Titan/README.md",
+		"/C/Users/Gerard/AppData/Roaming/Sublime Text 3/Packages/User/Preferences.sublime-settings",
+		"/C/Users/Gerard/Documents/Projects/Titan/app/scripts/services/auth.js",
+		"/C/Users/Gerard/Documents/Projects/Titan/app/scripts/app.js",
+		"/C/Users/Gerard/Documents/Projects/Titan/app/scripts/services/feed.js",
+		"/C/Users/Gerard/Documents/Projects/Titan/app/scripts/services/account.js",
+		"/C/Users/Gerard/Documents/Projects/Titan/app/scripts/controllers/main.js",
+		"/C/Users/Gerard/AppData/Roaming/Sublime Text 3/Packages/JavaScript/function.sublime-snippet",
+		"/C/Users/Gerard/AppData/Roaming/Sublime Text 3/Packages/JavaScript/function-(fun).sublime-snippet",
+		"/C/Users/Gerard/AppData/Roaming/Sublime Text 3/Packages/User/Emmet.sublime-settings",
+		"/C/Users/Gerard/Documents/Projects/Titan/node_modules/grunt-autoprefixer/node_modules/autoprefixer-core/node_modules/postcss/lib/css-syntax-error.js",
+		"/C/Users/Gerard/Documents/Projects/Titan/node_modules/grunt-autoprefixer/node_modules/autoprefixer-core/node_modules/caniuse-db/features-json/speech-synthesis.json",
+		"/C/Users/Gerard/Documents/Projects/Titan/node_modules/grunt-wiredep/node_modules/wiredep/node_modules/glob/sync.js",
+		"/C/Users/Gerard/Documents/Projects/Titan/node_modules/jshint-stylish/stylish.js",
+		"/C/Users/Gerard/Documents/Projects/Titan/node_modules/karma/node_modules/log4js/examples/memory-test.js",
+		"/C/Users/Gerard/Documents/Projects/Titan/node_modules/karma/node_modules/http-proxy/examples/middleware/modifyResponse-middleware.js",
+		"/C/Users/Gerard/Documents/Projects/Titan/node_modules/grunt-svgmin/node_modules/svgo/node_modules/sax/test/entity-mega.js",
+		"/C/Users/Gerard/Documents/Projects/Titan/node_modules/karma/lib/events.js",
+		"/C/Users/Gerard/Documents/Projects/Titan/app/views/main.html",
+		"/C/Users/Gerard/Documents/Projects/Titan/node_modules/grunt-svgmin/node_modules/svgo/node_modules/sax/test/stray-ending.js",
+		"/C/Users/Gerard/Documents/Projects/Titan/node_modules/grunt/node_modules/rimraf/test/setup.sh",
+		"/C/Users/Gerard/Documents/Projects/Titan/node_modules/grunt-svgmin/node_modules/svgo/node_modules/js-yaml/node_modules/argparse/node_modules/lodash/internal/baseToString.js",
+		"/C/Users/Gerard/Documents/Projects/Titan/node_modules/karma/node_modules/log4js/test/setLevel-asymmetry-test.js",
+		"/C/Users/Gerard/Documents/Projects/Titan/node_modules/grunt/node_modules/findup-sync/test/findup-sync_test.js",
+		"/C/Users/Gerard/Documents/Projects/Titan/node_modules/grunt-google-cdn/node_modules/bower/node_modules/mout/array/forEach.js",
+		"/C/Users/Gerard/Documents/Projects/Titan/bower_components/firebase/firebase.js",
+		"/C/Users/Gerard/Documents/Projects/Titan/bower.json",
+		"/C/Users/Gerard/Documents/Projects/Titan/node_modules/grunt-svgmin/node_modules/svgo/node_modules/sax/test/buffer-overrun.js",
 		"/C/Users/Gerard/Documents/Projects/Titan/app/scripts/controllers/about.js",
 		"/C/Users/Gerard/Documents/Projects/Titan/app/views/about.html",
 		"/C/Users/Gerard/Documents/Projects/Titan/node_modules/grunt-autoprefixer/node_modules/autoprefixer-core/node_modules/caniuse-db/features-json/atob-btoa.json",
-		"/C/Users/Gerard/Documents/Projects/Titan/app/scripts/app.js",
 		"/C/Users/Gerard/Documents/Projects/Titan/test/spec/controllers/main.js",
 		"/C/Users/Gerard/Documents/Projects/Titan/node_modules/karma/node_modules/http-proxy/test/core/simple/test-http-many-keep-alive-connections.js",
 		"/C/Users/Gerard/Documents/Projects/Titan/node_modules/grunt-contrib-uglify/node_modules/uglify-js/tmp/test-moz-ast.js",
@@ -121,7 +188,6 @@
 		"/C/Users/Gerard/Documents/Projects/Titan/node_modules/karma/node_modules/socket.io/node_modules/socket.io-client/node_modules/uglify-js/test/beautify.js",
 		"/C/Users/Gerard/Documents/Projects/Titan/node_modules/grunt-contrib-imagemin/node_modules/imagemin/node_modules/imagemin-gifsicle/node_modules/gifsicle/node_modules/bin-wrapper/node_modules/npm-installed/node_modules/rc/node_modules/.bin/strip-json-comments",
 		"/C/Users/Gerard/Documents/Projects/Titan/node_modules/grunt-contrib-cssmin/node_modules/maxmin/node_modules/gzip-size/node_modules/browserify-zlib/node_modules/pako/.jshintignore",
-		"/C/Users/Gerard/Documents/Projects/Titan/app/views/main.html",
 		"/C/Users/Gerard/Documents/Projects/Titan/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/lib/argument_parser.js",
 		"/C/Users/Gerard/Documents/Projects/Titan/node_modules/grunt/appveyor.yml",
 		"/C/Users/Gerard/Documents/Projects/Titan/app/robots.txt",
@@ -184,13 +250,12 @@
 		"/C/Users/Gerard/Documents/Projects/personalWebsite/node_modules/grunt-contrib-uglify/node_modules/uglify-js/lib/mozilla-ast.js",
 		"/C/Users/Gerard/Documents/Projects/personalWebsite/bower_components/es5-shim/Makefile",
 		"/C/Users/Gerard/Documents/Projects/personalWebsite/node_modules/grunt-contrib-clean/AUTHORS",
-		"/C/Users/Gerard/AppData/Roaming/Sublime Text 3/Packages/User/Preferences.sublime-settings",
 		"/C/Users/Gerard/Documents/Projects/personalWebsite/node_modules/grunt-google-cdn/node_modules/bower/node_modules/mout/lang/isNull.js",
 		"/C/Users/Gerard/AppData/Roaming/Sublime Text 3/Packages/User/Default (Windows).sublime-keymap"
 	],
 	"find":
 	{
-		"height": 23.0
+		"height": 36.0
 	},
 	"find_in_files":
 	{
@@ -204,6 +269,12 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"publicIsAuth",
+			"asArray",
+			"asObject",
+			"firebaseObj",
+			"firebase",
+			"updateFeed",
 			"categories",
 			"categoryTitle",
 			"this.auth",
@@ -239,6 +310,7 @@
 		"regex": false,
 		"replace_history":
 		[
+			""
 		],
 		"reverse": false,
 		"show_context": true,
@@ -249,8 +321,66 @@
 	"groups":
 	[
 		{
+			"selected": 0,
 			"sheets":
 			[
+				{
+					"buffer": 0,
+					"file": "app/scripts/controllers/main.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 642,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								609,
+								609
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "app/scripts/app.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1022,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								687,
+								687
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				}
 			]
 		}
 	],
@@ -301,18 +431,6 @@
 		"selected_items":
 		[
 			[
-				"about",
-				"app\\scripts\\controllers\\about.js"
-			],
-			[
-				"testmain",
-				"test\\spec\\controllers\\main.js"
-			],
-			[
-				"main",
-				"app\\scripts\\controllers\\main.js"
-			],
-			[
 				"app",
 				"app\\scripts\\app.js"
 			],
@@ -321,8 +439,36 @@
 				"bower_components\\angular-route\\angular-route.js"
 			],
 			[
+				"main",
+				"app\\scripts\\controllers\\main.js"
+			],
+			[
+				"feed",
+				"app\\scripts\\services\\feed.js"
+			],
+			[
 				"auth",
-				"app\\scripts\\angularfire\\auth.js"
+				"app\\scripts\\services\\auth.js"
+			],
+			[
+				"account",
+				"app\\scripts\\services\\account.js"
+			],
+			[
+				"main.h",
+				"app\\views\\main.html"
+			],
+			[
+				"bower",
+				"bower.json"
+			],
+			[
+				"about",
+				"app\\scripts\\controllers\\about.js"
+			],
+			[
+				"testmain",
+				"test\\spec\\controllers\\main.js"
 			],
 			[
 				"index",
@@ -339,10 +485,6 @@
 			[
 				"auth.js",
 				"app\\scripts\\angularfire\\auth.js"
-			],
-			[
-				"account",
-				"app\\scripts\\services\\account.js"
 			],
 			[
 				"feedloade",
