@@ -9,49 +9,45 @@
 angular.module('titanApp')
 	.factory('Account', accountService);
 
-accountService.$inject = ['$firebaseObject', '$log', '$q', 'FIREBASE_URL'];
+accountService.$inject = ['$rootScope', '$firebaseObject', '$firebaseAuth', '$log', '$q', 'FIREBASE_URL'];
 
-function accountService ($firebaseObj, $log, $q, FIREBASE_URL) {
-	var ref = new Firebase(FIREBASE_URL); //jshint ignore:line
+function accountService ($rootScope, $firebaseObj, $firebaseAuth, $log, $q, FIREBASE_URL) {
 	var service = {
-		ref : ref,
-		getAccount : publicGetAccount
-	};
-
+		getAccount : getAccount,
+		createAccount : createAccount
+	  };
+	
 	return service;
 
-	function publicGetAccount (authData) {
-		var account = $firebaseObj(ref).$loaded()
-			.then(function (sync) { return getAccount(sync, authData); })
-			.catch(function (e) { $log.error(e); });
-
-		return account;
-	}
-
-	function getAccount (sync, authData) {
-		if (sync.hasOwnProperty(authData.uid)) {
-			return sync[authData.uid];
-		} else {
-			var promise = createAccount(sync, authData)
-				.then(function (promise) { return promise; });
-			return promise;
-		}
-	}
-
-	function createAccount (sync, authData) {
-
-		sync[authData.uid] = authData;
-		var promise = syncChanges(sync)
-			.then(function (promise) { return promise; });
-
-		return promise;
-	}
-
-	function syncChanges (sync) {
+	function getAccount (authData) {
 		var deferred = $q.defer();
-		sync.$save()
-			.then(function () { deferred.resolve(); })
-			.catch(function (e) { $log.error(e); });
+		var ref = new Firebase(FIREBASE_URL + authData.uid); //jshint ignore:line
+		var account = $firebaseObj(ref);
+		
+		account.$loaded()
+			.then(function() {deferred.resolve(account);})
+			.catch(function(e) {
+				$log.error(e);
+				deferred.reject(e);
+			});
+		
+		return deferred.promise;
+	}
+
+	function createAccount (authData) {
+		var deferred = $q.defer();
+		var ref = new Firebase(FIREBASE_URL); //jshint ignore:line
+		var db = $firebaseAuth(ref);
+		var userData = {
+			email: authData.email,
+			password: math.random().toString(36).slice(-8) //jshint ignore:line
+		  };
+		db.$createUser(userData)
+			.then(function(user) {deferred.resolve(user);})
+			.catch(function(e) {
+				$log.error(e);
+				deferred.reject(e);
+			});		
 
 		return deferred.promise;
 	}
