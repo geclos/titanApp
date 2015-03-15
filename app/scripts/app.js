@@ -22,7 +22,8 @@ angular.module('titanApp', [
   .config(routeProvider);
 
 redirectFallback.$inject = ['$log', '$rootScope', '$location'];
-routeProvider.$inject = ['$routeProvider', 'Auth'];
+routeProvider.$inject = ['$routeProvider'];
+requireAuth.$inject = ['$q', 'Auth', 'Account', 'Feed'];
 
 function routeProvider($routeProvider) {
   $routeProvider
@@ -31,9 +32,13 @@ function routeProvider($routeProvider) {
 	  controller: 'MainCtrl',
 	  controllerAs: 'vm',
 	  resolve: {
-		currentAuth : function() { return Auth.requireAuth(true); }]
-		// TODO...
+		requireAuth : requireAuth
 	  }
+	})
+	.when('/welcome', {
+		templateUrl: 'views/welcome.html',
+		controller: 'welcomeCtrl',
+		controllerAs: 'vm'
 	})
 	.otherwise({
 	  redirectTo: '/'
@@ -41,15 +46,26 @@ function routeProvider($routeProvider) {
 }
 
 function redirectFallback($log, $rootScope, $location) {
-  $rootScope.$on('$routeChangeError', 
-	function(event, next, previous, error) { redirect(error); });
-
-  function redirect(error) {
+  $rootScope.$on('$routeChangeError', function(event, next, previous, error) { 
 	if (error === 'AUTH_REQUIRED') {
-	  $log.error(error);
-	  $location.path('/');
+	  $log.info(error);
+	  $location.path('/welcome');
 	}
-  }
+  }); 
 }
+
+function requireAuth($q, Auth, Account, Feed) {
+	var deferred = $q.defer();
+	Auth.requireAuth(true)
+		.then(function (authData) {
+			Account.getAccount()
+				.then(Feed.start(authData))
+				.then(function() { deferred.resolve(authData); });
+			}
+		)
+		.catch(function(e) { deferred.reject(e); });
+
+	return deferred.promise;
+}	
 
 })();

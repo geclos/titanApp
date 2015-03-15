@@ -60,6 +60,14 @@
 			}
 		},
 		{
+			"file": "app/scripts/services/googleParser.js",
+			"settings":
+			{
+				"buffer_size": 610,
+				"line_ending": "Windows"
+			}
+		},
+		{
 			"file": "app/scripts/app.js",
 			"settings":
 			{
@@ -139,16 +147,17 @@
 		"/C/Users/Gerard/Documents/Projects/Titan",
 		"/C/Users/Gerard/Documents/Projects/Titan/app",
 		"/C/Users/Gerard/Documents/Projects/Titan/app/scripts",
+		"/C/Users/Gerard/Documents/Projects/Titan/app/scripts/services",
 		"/C/Users/Gerard/Documents/Projects/Titan/app/styles"
 	],
 	"file_history":
 	[
+		"/C/Users/Gerard/Documents/Projects/Titan/app/scripts/services/feed.js",
 		"/C/Users/Gerard/Documents/Projects/Titan/bower_components/angular-route/angular-route.js",
 		"/C/Users/Gerard/Documents/Projects/Titan/README.md",
 		"/C/Users/Gerard/AppData/Roaming/Sublime Text 3/Packages/User/Preferences.sublime-settings",
 		"/C/Users/Gerard/Documents/Projects/Titan/app/scripts/services/auth.js",
 		"/C/Users/Gerard/Documents/Projects/Titan/app/scripts/app.js",
-		"/C/Users/Gerard/Documents/Projects/Titan/app/scripts/services/feed.js",
 		"/C/Users/Gerard/Documents/Projects/Titan/app/scripts/services/account.js",
 		"/C/Users/Gerard/Documents/Projects/Titan/app/scripts/controllers/main.js",
 		"/C/Users/Gerard/AppData/Roaming/Sublime Text 3/Packages/JavaScript/function.sublime-snippet",
@@ -321,7 +330,7 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 1,
 			"sheets":
 			[
 				{
@@ -337,8 +346,8 @@
 						"selection":
 						[
 							[
-								609,
-								609
+								357,
+								357
 							]
 						],
 						"settings":
@@ -350,11 +359,39 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 1,
 					"type": "text"
 				},
 				{
 					"buffer": 1,
+					"file": "app/scripts/services/googleParser.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 610,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								452,
+								452
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
 					"file": "app/scripts/app.js",
 					"semi_transient": false,
 					"settings":
@@ -366,8 +403,8 @@
 						"selection":
 						[
 							[
-								687,
-								687
+								677,
+								677
 							]
 						],
 						"settings":
@@ -378,7 +415,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 2,
 					"type": "text"
 				}
 			]
@@ -431,6 +468,10 @@
 		"selected_items":
 		[
 			[
+				"feed",
+				"app\\scripts\\services\\feed.js"
+			],
+			[
 				"app",
 				"app\\scripts\\app.js"
 			],
@@ -441,10 +482,6 @@
 			[
 				"main",
 				"app\\scripts\\controllers\\main.js"
-			],
-			[
-				"feed",
-				"app\\scripts\\services\\feed.js"
 			],
 			[
 				"auth",

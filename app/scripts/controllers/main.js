@@ -12,28 +12,16 @@ angular.module('titanApp')
 	.controller('MainCtrl', mainCtrl);
 
 mainCtrl.$inject = [
-	'$log', 
-	'Account', 
-	'currentAuth', 
+	'$log',
+	'Auth', 
+	'Account',
 	'Feed'
   ];
 
-function mainCtrl ($log, Account, currentAuth, Feed) {
-	try	{
-		if (!currentAuth) {
-			throw new Error('Not authenticated');
-		} else {
-			var user = currentAuth;
-		}
-	} catch(e) {
-		$log.error(e);
-	}
+function mainCtrl ($log, Auth, Account, Feed) {
 
 	/* jshint validthis: true */
 	var vm = this;
-	// TODO : initialize account & feeds before loading the controller
-	vm.account;
-	vm.feeds;
-
+	// TODO...
 }
 })();
