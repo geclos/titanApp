@@ -16,7 +16,8 @@ angular.module('titanApp', [
 	'ngRoute',
 	'ngSanitize',
 	'ngTouch',
-	'firebase'
+	'firebase',
+	'ngMaterial'
   ])
   .run(redirectFallback)
   .config(routeProvider);
@@ -46,6 +47,7 @@ function routeProvider($routeProvider) {
 }
 
 function redirectFallback($log, $rootScope, $location) {
+  // TODO: review specification
   $rootScope.$on('$routeChangeError', function(event, next, previous, error) { 
 	if (error === 'AUTH_REQUIRED') {
 	  $log.info(error);
@@ -55,6 +57,9 @@ function redirectFallback($log, $rootScope, $location) {
 }
 
 function requireAuth($q, Auth, Account, Feed) {
+	return Auth.requireAuth(true); // returns new Error() if not authenticated
+	// Firebase implementation 
+	/*
 	var deferred = $q.defer();
 	Auth.requireAuth(true)
 		.then(function (authData) {
@@ -66,6 +71,7 @@ function requireAuth($q, Auth, Account, Feed) {
 		.catch(function(e) { deferred.reject(e); });
 
 	return deferred.promise;
+	*/
 }	
 
 })();

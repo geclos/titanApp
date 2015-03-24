@@ -1,6 +1,7 @@
 (function() {
 'use strict';
 
+google.load('feeds', '1'); //jshint ignore:line
 /**
 * titanApp Module
 *
