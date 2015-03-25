@@ -32,8 +32,9 @@ function routeProvider($routeProvider) {
 	  templateUrl: 'views/main.html',
 	  controller: 'MainCtrl',
 	  controllerAs: 'vm',
+	  // TODO: review specification for resolve{}
 	  resolve: {
-		requireAuth : requireAuth
+		auth : requireAuth
 	  }
 	})
 	.when('/welcome', {
@@ -48,17 +49,23 @@ function routeProvider($routeProvider) {
 
 function redirectFallback($log, $rootScope, $location) {
   // TODO: review specification
-  $rootScope.$on('$routeChangeError', function(event, next, previous, error) { 
-	if (error === 'AUTH_REQUIRED') {
-	  $log.info(error);
-	  $location.path('/welcome');
-	}
-  }); 
+  $rootScope.$on('$routeChangeError',
+  	function(event, current, prev, error) {
+		if (error === 'AUTH_REQUIRED') {
+		  $log.info(error);
+		  $location.path('/welcome');
+		}
+  });
 }
 
 function requireAuth($q, Auth, Account, Feed) {
-	return Auth.requireAuth(true); // returns new Error() if not authenticated
-	// Firebase implementation 
+	return Auth.requireAuth(true)
+		.then(function(userKey) {
+			return Account.getAccount(userKey)
+				.then(function() {return Feed.start(userKey);});
+		});
+	// returns new Error() if not authenticated
+	// Firebase implementation
 	/*
 	var deferred = $q.defer();
 	Auth.requireAuth(true)
@@ -72,6 +79,6 @@ function requireAuth($q, Auth, Account, Feed) {
 
 	return deferred.promise;
 	*/
-}	
+}
 
 })();

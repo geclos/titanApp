@@ -9,55 +9,49 @@
 angular.module('titanApp')
 	.factory('Account', accountService);
 
-accountService.$inject = ['$rootScope', '$firebaseObject', '$firebaseAuth', '$log', '$q', 'FIREBASE_URL'];
+accountService.$inject = ['$rootScope', '$firebaseObject', '$firebaseArray',
+	'$log', '$q', 'FIREBASE_URL'];
 
-function accountService ($rootScope, $firebaseObj, $firebaseAuth, $log, $q, FIREBASE_URL) {
+function accountService ($rootScope, $firebaseObj, $firebaseArr,
+	$log, $q, FIREBASE_URL) {
 	var service = {
 		getAccount : getAccount,
 		createAccount : createAccount
 	};
-	
+
 	return service;
 
-	function getAccount (authData) {
+	function getAccount (userKey) {
 		try{
-			if (!authData || typeof authData !== 'object') {
+			if (!userKey || typeof userKey !== 'string') {
 				throw new Error('Arguments do not match specification');
 			}
 		}catch(e){
 			$log.error(e.message);
 		}
-		
-		var deferred = $q.defer();
-		var ref = new Firebase(FIREBASE_URL + authData.uid); //jshint ignore:line
+
+		var ref = new Firebase(FIREBASE_URL + userKey); //jshint ignore:line
 		var account = $firebaseObj(ref);
-		account.$loaded()
-			.then(function() {deferred.resolve(account);})
-			.catch(function(e) {
-				$log.error(e);
-				deferred.reject(e);
-			});
-		
-		return deferred.promise;
+		return account.$loaded();
 	}
 
-	function createAccount (authData) {
-		try{
-			if (!authData || typeof authData !== 'object') {
-				throw new Error('Arguments do not match specification');
-			}
-		}catch(e){
-			$log.error(e.message);
-		}
-		
+	function createAccount () {
 		var deferred = $q.defer();
-		var ref = new Firebase(FIREBASE_URL); //jshint ignore:line
-		var db = $firebaseAuth(ref);
-		var userData = {
-			email: authData.email,
-			password: math.random().toString(36).slice(-8) //jshint ignore:line
+		var data = {
+			id : Math.random().toString(36).slice(-8) //jshint ignore:line
 		};
-		// TODO: review $createUser specification --> What does user object contain?
+		var ref = new Firebase(FIREBASE_URL); //jshint ignore:line
+		var db = $firebaseArr(ref);
+		db.$add(data)
+			.then(function(ref) {
+				localStore(ref, deferred);
+				deferred.resolve(ref.key());
+			})
+			.catch(function(e) {deferred.reject(e);});
+
+		return deferred.promise;
+		// email/password implementation
+		/*var db = $firebaseAuth(ref);
 		db.$createUser(userData)
 			.then(function(user) {
 				localStorage.setItem('email', user.email);
@@ -67,9 +61,12 @@ function accountService ($rootScope, $firebaseObj, $firebaseAuth, $log, $q, FIRE
 			.catch(function(e) {
 				$log.error(e);
 				deferred.reject(e);
-			});		
+			});*/
+	}
 
-		return deferred.promise;
+	function localStore(ref, deferred) {
+		var userKey = ref.key();
+		localStorage.setItem('userKey', userKey);
 	}
 }
 })();

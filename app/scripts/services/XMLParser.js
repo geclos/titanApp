@@ -21,18 +21,18 @@ angular.module('titanApp')
 
 		function retrieveFeed(feedUrl) {
 			var deferred = $q.defer();
-			var config = {
-				timeout: '5000'
-			  };
-			$http.get(feedUrl, config)
-				.success(function(data, status) {
-					deferred.resolve(data);
-				})
-				.error(function(e) {
-					$log.error(e);
-					deferred.reject(e);
-				});
-			
+			var updatedFeed = new google.feeds.Feed(feedUrl); //jshint ignore:line
+			// Retrieves feed content from Google API
+			updatedFeed.load(function (result) {
+				if (!result.error) {
+					deferred.resolve(result.feed);
+				} else {
+					deferred.reject('The URL provided is not valid: ' + 
+						result.error.code + ' - ' + 
+						result.error.message);
+				}
+			});
+
 			return deferred.promise;
 		}
 	}

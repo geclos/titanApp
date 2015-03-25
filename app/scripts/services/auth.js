@@ -9,50 +9,51 @@
 angular.module('titanApp')
 	.factory('Auth', authService);
 
-authService.$inject = [ '$rootScope','$firebaseAuth', '$log', '$q', 'FIREBASE_URL'];
+authService.$inject = [ '$rootScope','$firebaseAuth', '$log', '$q',
+	'FIREBASE_URL'];
 
 function authService ($rootScope, $firebaseAuth, $log, $q, FIREBASE_URL) {
 	// Firebase implementation
-	/*	
+	/*
 	var ref = new Firebase(FIREBASE_URL); //jshint ignore:line
 	var auth = $firebaseAuth(ref);
 	*/
 	var service = {
-		signup: signup,
-		requireAuth : requireAuth 
+		signUp : signUp,
+		requireAuth : requireAuth
 	};
-	
+
 	return service;
 
-	function signup(service) {
-		var browserID = math.random().toString(36).slice(-8); //jshint ignore:line
-		localStorage.setItem('browserID', browserID);
-		return browserID;
+	function signUp(userKey) {
+		localStorage.setItem('userKey', userKey);
+		return true;
 		// Firebase implementation
-		/*
-		var deferred = $q.defer();
+		/*var deferred = $q.defer();
 		auth.$authwithOAuthPopUp()
-			.then(function (authData) { 
+			.then(function (authData) {
 				deferred.resolve(authData);
 			})
 			.catch(function (e) { $log.error(e); });
 
-		return deferred.promise;
-		*/	
+		return deferred.promise;*/
 	}
 
 	function requireAuth(bool) {
-		var browserID = localStorage.getItem('browserID');
-		if (browserID) {
-			return browserID;
+		var deferred = $q.defer();
+		var userKey = localStorage.getItem('userKey');
+		if (userKey) {
+			deferred.resolve(userKey);
 		} else {
-			var e = new Error('Not authenticated');
-			return e;
+			var e = 'AUTH_REQUIRED';
+			deferred.reject(e);
 		}
-		
+
+		return deferred.promise;
+
 		// Firebase implementation
-		/*		
-		var deferred = $q.defer(); 
+		/*
+		var deferred = $q.defer();
 		if (bool) {
 			auth.$requireAuth()
 				.then(function(authData) {
@@ -66,7 +67,7 @@ function authService ($rootScope, $firebaseAuth, $log, $q, FIREBASE_URL) {
 				})
 				.catch(function(authData) {deferred.reject(authData);});
 		}
-	
+
 		return deferred.promise;
 		*/
 	}
