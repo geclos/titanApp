@@ -17,12 +17,12 @@
     <!-- endbuild -->
   </head>
   
-  <body ng-app="titanApp" layout="column">
+  <body ng-app="titanApp">
   <!--[if lt IE 7]>
     <p clas=s"browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
   <![endif]-->
 
-  <main ng-view=""></main>
+  <section ng-view=""></section>
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
      <script>
@@ -60,10 +60,12 @@
         <script src="scripts/controllers/main.js"></script>
         <script src="scripts/controllers/welcome.js"></script>
         <script src="scripts/directives/titanFeeds.js"></script>
+        <script src="scripts/directives/titanPopUp.js"></script>
         <script src="scripts/directives/titanSidebar.js"></script>
         <script src="scripts/services/account.js"></script>
         <script src="scripts/services/auth.js"></script>
         <script src="scripts/services/feed.js"></script>
+        <script src="scripts/services/XMLParser.js"></script>
         <!-- endbuild -->
 </body>
 </html>

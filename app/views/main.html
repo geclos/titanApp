@@ -1,18 +1,43 @@
-<md-toolbar layout="row" layout-align="space-between center" class="md-primary main-header">
-	<hgroup>
-		<h1 class="md-toolbar-tools">Titan</h1>
-	</hgroup>
-	<nav style="padding-right: 1em;" hide-gt-md>
-		<button class="btn btn-link menu-toggle"><span class="glyphicon glyphicon-menu-hamburger"></span></button>
-	</nav>
-</md-toolbar>
-<md-content layout="row" layout-fill>
-	<section layout="column" layout-fill layout-align="center">
-		<article class="no-content" ng-hide="vm.feeds">
-			<h1 class="text-script text-muted">Is that your final answer?</h1>
-			<h3 class="text-muted">No content to display...</h3>
-		</article>
-		<titan-feeds ng-show="vm.feeds"></titan-feeds>	
+<main layout="column" layout-fill>
+	<!-- Main header -->
+	<md-toolbar layout="row" layout-align="space-between center" class="md-primary main-header">
+		<hgroup>
+			<h1 class="md-toolbar-tools">Titan</h1>
+		</hgroup>
+		<nav style="padding-right: 1em;" hide-gt-md>
+			<md-button class="md-button menu-toggle" ng-click="vm.toggleRight()" aria-label><span class="glyphicon glyphicon-menu-hamburger"></span></md-button>
+		</nav>
+	</md-toolbar>
+	
+	<!-- Main content -->
+	<md-content layout="row" layout-fill flex>
+		<section layout="column" layout-fill layout-align="center">
+			<article class="no-content" ng-hide="vm.feeds">
+				<header>
+					<h1 class="text-script text-muted">Is that your final answer?</h1>
+					<h2 class="text-muted">No content to display...</h2>
+					<h3>{{vm.example}}</h3>
+				</header>
+				<md-button class="md-button md-primary md-raised" ng-click="vm.togglePopUp()">Add feed</md-button>
+			</article>
+			<titan-feeds ng-show="vm.feeds"></titan-feeds>	
+		</section>
+		<titan-sidebar></titan-sidebar>
+	</md-content>
+
+	<!-- Pop Up -->
+	<section class="pop-up" ng-show="vm.popUp" layout="row" layout-fill  layout-align="center center" titan-pop-up>
+		<md-card class=".md-whiteframe-z2">
+			<md-card-content>
+				<md-button class="pull-right md-button" ng-click="vm.togglePopUp()" aria-label><span class="text-muted glyphicon glyphicon-remove"></span></md-button>
+				<form ng-submit="vm.addFeed()">
+					<md-input-container>
+						<label for="feed-url">Feed URL</label>
+						<input type="url" name="feed-url" ng-model="vm.feedUrl" required/>
+					</md-input-container>
+					<md-button type="submit" name="submit" class="md-button md-primary md-raised">Submit</md-button>
+				</form>
+			</md-card-content>
+		</md-card>
 	</section>
-	<titan-sidebar></titan-sidebar>
-</md-content>
+</main>

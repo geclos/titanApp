@@ -14,8 +14,7 @@ titanSidebarDirective.$inject = [];
 function titanSidebarDirective(){
 	var directive = {
 		controller: controller,
-		controllerAs: 'vm',
-		bindToController: true, 
+		bindToController: true,
 		restrict: 'E', // E = Element, A = Attribute, C = Class, M = Comment
 		templateUrl: '../views/directives/titan-sidebar.html',
 		replace: true
@@ -24,7 +23,7 @@ function titanSidebarDirective(){
 	
 	return directive;
 	
-	function controller($scope, $element, $attrs, $transclude) {
+	function controller() {
 		/* jshint validthis: true */
 		var vm = this;
 

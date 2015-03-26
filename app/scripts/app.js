@@ -30,7 +30,7 @@ function routeProvider($routeProvider) {
   $routeProvider
 	.when('/', {
 	  templateUrl: 'views/main.html',
-	  controller: 'MainCtrl',
+	  controller: 'mainCtrl',
 	  controllerAs: 'vm',
 	  resolve: {
 		auth : requireAuth

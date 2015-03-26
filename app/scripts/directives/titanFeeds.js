@@ -14,7 +14,6 @@ titanFeedsDirective.$inject = ['$log'];
 function titanFeedsDirective($log) {
 	var directive = {
 		controller: controller,
-		controllerAs: 'vm',
 		bindToController: true, 
 		restrict: 'E', // E = Element, A = Attribute, C = Class, M = Comment
 		templateUrl: '../views/directives/titan-feeds.html'

@@ -1,28 +1,13 @@
-<section id="welcome" layout-fill layout="row" layout-align="center center">
-	<section flex="40" layout="column" layout-align="space-around center">
+<main id="welcome" layout="row" layout-align="center center" layout-fill>
+	<section flex="40">
 		<section>
 			<article>
 				<header>
 					<h1>Beta</h1>
 				</header>
-				<small>This app is for demonstration purposes. It makes use of HTML5 WebStorage API to storage ID information and ensure a personalized experience as long as the user keeps using the same browser. <strong>No personal information is stored in the server.</strong></small>
+				<small>This app is for demonstration purposes. It makes use of HTML5 WebStorage API to ensure a personalized experience as long as the user keeps using the same browser. <strong>No personal information is stored in the server.</strong></small>
 			</article>
 			<md-button class="md-raised md-primary" ng-click="vm.signUp()">Enter the void</md-button>
 		</section>
-		<!-- <md-card>
-			<md-card-content>
-				<form>
-					<md-input-container>
-						<label for="email">Email</label>
-						<input type="email" name="email">
-					</md-input-container>
-					<md-input-container>
-						<label for="password">Password</label>
-						<input type="password" name="password" required>
-					</md-input-container>
-					<md-button type="submit" name="submit" class="md-raised md-primary">Sign Up</md-button>
-				</form>
-			</md-card-content>
-		</md-card> -->
 	</section>
-</section>
+</main>

@@ -24,9 +24,8 @@ function feedService($log, $firebaseObj, $firebaseArr, $q, FIREBASE_URL) {
 
 	return service;
 
-	function start(browserID) {
-		// var deferred = $q.defer();
-		query = FIREBASE_URL + '/' + browserID + '/feeds';
+	function start(browserKey) {
+		query = FIREBASE_URL + '/' + browserKey + '/feeds';
 	}
 
 	function addFeed(feedObj) {
@@ -38,29 +37,33 @@ function feedService($log, $firebaseObj, $firebaseArr, $q, FIREBASE_URL) {
 			$log.error(e);
 		}
 
-		var promise = getFeed()
-			.then(function (feedsArr) { return feedsArr.$add(); })
+		var feed = {
+			// TODO...
+		};
+		var promise = getFeed() // returns list of feeds in db
+			.then(function (feedsArr) { return feedsArr.$add(feed); }) // returns ref to object added
 			.catch(function (e) { $log.error(e); });
 
 		return promise;
 	}
 
-	function getFeed(feedID) {
+	function getFeed(feedKey) {
 		try {
-			if (arguments.length > 1 || typeof feedID !== 'string') {
+			if (arguments.length > 1 || typeof feedKey !== 'string') {
 				throw new Error('Arguments do not match specification');
 			}
 		} catch(e) {
+
 			$log.error(e);
 		}
 
 		var deferred = $q.defer();
-		var query = feedID ?
-					query + '/' + feedID :
+		var query = feedKey ?
+					query + '/' + feedKey :
 					query;
 		var ref = new Firebase(query); //jshint ignore:line
 		var response;
-		if (feedID) {
+		if (feedKey) {
 			response = $firebaseObj(ref).$loaded()
 				.then(function () { deferred.resolve(response); })
 				.catch(function (e) { deferred.reject(e); });
@@ -73,7 +76,7 @@ function feedService($log, $firebaseObj, $firebaseArr, $q, FIREBASE_URL) {
 		return deferred.promise;
 	}
 
-	function removeFeed(feedID) {
+	function removeFeed(feedKey) {
 		try {
 			if (arguments.length !== 1 || typeof feedObj !== 'object') {
 				throw new Error('Arguments do not match specification');
@@ -82,7 +85,7 @@ function feedService($log, $firebaseObj, $firebaseArr, $q, FIREBASE_URL) {
 			$log.error(e);
 		}
 
-		var promise = getFeed(feedID)
+		var promise = getFeed(feedKey)
 			.then(function (feedObj) { return feedObj.$remove(); })
 			.catch(function (e) { $log.error(e); });
 
@@ -90,9 +93,9 @@ function feedService($log, $firebaseObj, $firebaseArr, $q, FIREBASE_URL) {
 	}
 
 	// TODO Review implementation of feedObj with several properties
-	function updateFeed(feedID, obj) {
+	function updateFeed(feedKey, obj) {
 		try {
-			if (arguments.length !== 2 || typeof feedID !== 'string' ||
+			if (arguments.length !== 2 || typeof feedKey !== 'string' ||
 				typeof obj !== 'object') {
 				throw new Error('Arguments do not match specification');
 			}
@@ -101,7 +104,7 @@ function feedService($log, $firebaseObj, $firebaseArr, $q, FIREBASE_URL) {
 		}
 
 		if (obj.hasOwnProperty('title')) {
-			var promise = getFeed(feedID)
+			var promise = getFeed(feedKey)
 				.then(function (feedObj) {
 					return changeFeedTitle(feedObj, obj.title);
 				})

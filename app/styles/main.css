@@ -1,3 +1,4 @@
+/* Misc */
 .browsehappy {
   margin: 0.2em 0;
   background: #ccc;
@@ -5,12 +6,9 @@
   padding: 0.2em 0;
 }
 
-::selection {
-	text-shadow: none;
-}
-
-::-moz-selection {
-	text-shadow: none;
+button:focus, a:focus {
+	border: none;
+	outline: none;
 }
 
 body {
@@ -19,33 +17,28 @@ body {
   margin: 0;
 }
 
-main {
-  height: 100%;
+body section:first-of-type {
+	height: 100%;
 }
 
 /* welcome page styling */
-#welcome {
+main#welcome {
   background-image: url('../images/background_image.jpg');
   color: white;
 }
 
-#welcome md-card {
-	background-color: white;
-	width: 100%;
-}
-
-#welcome section article small {
+main#welcome section article small {
 	color: #fefefe;
 }
 
-#welcome section button.md-button {
+main#welcome section button.md-button {
 	display: block;
 	font-size: 2em;
 	margin: 1em auto 0;
 	padding: .5em 1.5em; 
 } 
 
-#welcome section article:first-child header h1 {
+main#welcome section article:first-child header h1 {
 	font-family: 'Impact', Helvetica, Arial, sans-serif;
 	font-size: 5em;
 	letter-spacing: 0.1em;
@@ -68,11 +61,8 @@ button.menu-toggle:hover {
 
 /* Main page styling */
 article.no-content {
+	padding-top: 15%;
 	text-align: center; 
-}
-
-article.no-content h3 {
-	color: #dadada;
 }
 
 article.no-content h1 {
@@ -85,6 +75,28 @@ article.no-content h1 {
 	font-size: 3em;
 	margin-bottom: 0.3em;
 	text-shadow: 0 2px 3px rgba(255,255,255, 0.5);
+}
+
+article.no-content h3 {
+	color: #dadada;
+}
+
+article.no-content .md-button {
+	padding-left: 2em;
+	padding-right: 2em;
+}
+
+section.pop-up {
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 61;
+	background-color: rgba(0,0,0,0.3);
+}
+
+section.pop-up md-card {
+	background-color: white;
+	min-width: 30%;
 }
 
 /* Sidebar styling */
