@@ -1,0 +1,10 @@
+<md-sidenav  layout="column" class="md-sidenav-right md-whiteframe-z2" md-component-id="right" md-is-locked-open="$mdMedia('gt-md')">
+	<section>
+		<md-button class="md-button md-primary" ng-click="vm.addFeed()"><span class="glyphicon glyphicon-plus"></span> Add feed</md-button>
+	</section>
+	<section ng-show="vm.categories">
+		<ul>
+			<li ng-repeat="feedTitle in vm.categories"></li>
+		</ul>
+	</section>
+</md-sidenav>

@@ -16,22 +16,13 @@
     <link rel="stylesheet" href="styles/main.css">
     <!-- endbuild -->
   </head>
-  <body layout="column" ng-app="titanApp">
-    <!--[if lt IE 7]>
-      <p clas=s"browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-    <![endif]-->
+  
+  <body ng-app="titanApp" layout="column">
+  <!--[if lt IE 7]>
+    <p clas=s"browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+  <![endif]-->
 
-    <!-- Add your site or application content here -->
-    <md-toolbar class="md-warn">
-      <h1 class="md-toolbar-tools"><strong>Titan</strong></h1>
-    </md-toolbar><!-- /header -->
-    
-    <main layout="row">
-      <section layout="column" ng-view="" flex="75" flex-order="1"></section>
-      <aside layout="column" flex="25" flex-order="2">
-        <h1 class="text-muted">Here goes some content...</h1>
-      </aside>
-    </main>
+  <main ng-view=""></main>
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
      <script>
@@ -63,10 +54,13 @@
     <!-- endbuild -->
 
         <!-- build:js({.tmp,app}) scripts/scripts.js -->
+        <script type="text/javascript" src="https://www.google.com/jsapi"></script>
         <script src="scripts/app.js"></script>
         <script src="scripts/constants.js"></script>
         <script src="scripts/controllers/main.js"></script>
         <script src="scripts/controllers/welcome.js"></script>
+        <script src="scripts/directives/titanFeeds.js"></script>
+        <script src="scripts/directives/titanSidebar.js"></script>
         <script src="scripts/services/account.js"></script>
         <script src="scripts/services/auth.js"></script>
         <script src="scripts/services/feed.js"></script>
