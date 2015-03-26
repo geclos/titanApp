@@ -1,0 +1,22 @@
+<section class="content">
+	<article ng-repeat="article in vm.feeds">
+		<header>
+			<hgroup>
+				<h1>{{article.title}}</h1>
+				<h3>{{article.metadata.author}}</h3>
+			</hgroup>
+			<small>{{article.metadata.datePublished}}</small>
+		</header>
+		{{article.contents}}
+		<footer>
+			<div class="pull-right">
+				<button type="button" class="btn btn-link">
+					Collapse
+				</button>
+			</div>
+			<div class="pull-left">
+				<a href="{{article.link}}" class="btn btn-link">Continue reading...</a>
+			</div>
+		</footer>
+	</article>
+</section>

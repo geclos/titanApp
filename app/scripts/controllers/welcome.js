@@ -9,10 +9,19 @@
 angular.module('titanApp')
 	.controller('welcomeCtrl', welcomeCtrl);
 
-	welcomeCtrl.$inject = ['$scope', '$location', '$log', 'Account', 'Auth'];
+	welcomeCtrl.$inject = [
+		'$scope',
+		'$location',
+		'$log',
+		'Account',
+		'Auth'
+	  ];
 
 	function welcomeCtrl($scope, $location, $log, Account, Auth) {
-		$scope.signUp = signUp;
+		/* jshint validthis: true */
+		var vm = this;
+
+		vm.signUp = signUp;
 
 		function signUp() {
 			var userKey = localStorage.getItem('userKey'); 

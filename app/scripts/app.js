@@ -32,7 +32,6 @@ function routeProvider($routeProvider) {
 	  templateUrl: 'views/main.html',
 	  controller: 'MainCtrl',
 	  controllerAs: 'vm',
-	  // TODO: review specification for resolve{}
 	  resolve: {
 		auth : requireAuth
 	  }
@@ -48,7 +47,6 @@ function routeProvider($routeProvider) {
 }
 
 function redirectFallback($log, $rootScope, $location) {
-  // TODO: review specification
   $rootScope.$on('$routeChangeError',
   	function(event, current, prev, error) {
 		if (error === 'AUTH_REQUIRED') {
@@ -64,7 +62,6 @@ function requireAuth($q, Auth, Account, Feed) {
 			return Account.getAccount(userKey)
 				.then(function() {return Feed.start(userKey);});
 		});
-	// returns new Error() if not authenticated
 	// Firebase implementation
 	/*
 	var deferred = $q.defer();

@@ -19,9 +19,10 @@ mainCtrl.$inject = [
   ];
 
 function mainCtrl ($log, Auth, Account, Feed) {
-
 	/* jshint validthis: true */
 	var vm = this;
+	
 	// TODO...
 }
+
 })();

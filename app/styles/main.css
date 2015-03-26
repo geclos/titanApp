@@ -5,25 +5,33 @@
   padding: 0.2em 0;
 }
 
+::selection {
+	text-shadow: none;
+}
+
+::-moz-selection {
+	text-shadow: none;
+}
+
 body {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   padding: 0;
+  margin: 0;
 }
 
 main {
   height: 100%;
 }
 
+/* welcome page styling */
 #welcome {
   background-image: url('../images/background_image.jpg');
+  color: white;
 }
 
 #welcome md-card {
 	background-color: white;
 	width: 100%;
-}
-
-#welcome section {
-	color: white;
 }
 
 #welcome section article small {
@@ -45,4 +53,82 @@ main {
 	opacity: 0.95;
 	text-align: center;
 	text-transform: uppercase;
+}
+
+/* Main header styling */
+button.menu-toggle {
+	color: white; 
+	font-weight: bold; 
+	font-size: inherit;
+}
+
+button.menu-toggle:hover {
+	text-decoration: none;
+}
+
+/* Main page styling */
+article.no-content {
+	text-align: center; 
+}
+
+article.no-content h3 {
+	color: #dadada;
+}
+
+article.no-content h1 {
+	background-color: #dadada;
+	background-clip: text; 
+	-webkit-background-clip: text;
+	-moz-background-clip: text;
+	color: transparent;
+	font-weight: bold;
+	font-size: 3em;
+	margin-bottom: 0.3em;
+	text-shadow: 0 2px 3px rgba(255,255,255, 0.5);
+}
+
+/* Sidebar styling */
+md-sidenav section {
+	padding: 1em;
+	margin: 1em; 
+}
+
+/* Media queries */
+
+/* desktop screens: > 1024px */
+@media screen and (min-width: 960px) {
+	article.no-content h1 {
+		font-size: 3em;
+	}
+}
+
+/* medium screens: 960px */
+@media screen and (max-width: 960px) {
+	article.no-content h1 {
+		font-size: 2.5em;
+	}
+}
+
+/* tablet screens: 786px */
+@media screen and (max-width: 768px) {
+	article.no-content h1 {
+		font-size: 2.5em;
+	}
+}
+
+/* phone screens: 480px */
+@media screen and (max-width: 480px) {
+	article.no-content h1 {
+		font-size: 1.5em;
+		text-shadow: none;
+		background-color: none;
+		color: #dadada;
+		-webkit-background-clip: none;
+		-moz-background-clip: none;
+		background-clip: none;  
+	}
+
+	article.no-content h3 {
+		font-size: 0.8em;
+	}
 }

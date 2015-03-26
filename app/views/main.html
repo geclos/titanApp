@@ -1,11 +1,18 @@
-<md-toolbar class="md-primary">
-	<h1 class="md-toolbar-tools">Titan</h1>
-</md-toolbar><!-- /header -->
-<md-content layout="row" layoutfill>
-	<section layout="column" flex="75" flex-order="1">
-		<h1><strong>MAIN CONTENT GOES HERE...</strong></h1>
+<md-toolbar layout="row" layout-align="space-between center" class="md-primary main-header">
+	<hgroup>
+		<h1 class="md-toolbar-tools">Titan</h1>
+	</hgroup>
+	<nav style="padding-right: 1em;" hide-gt-md>
+		<button class="btn btn-link menu-toggle"><span class="glyphicon glyphicon-menu-hamburger"></span></button>
+	</nav>
+</md-toolbar>
+<md-content layout="row" layout-fill>
+	<section layout="column" layout-fill layout-align="center">
+		<article class="no-content" ng-hide="vm.feeds">
+			<h1 class="text-script text-muted">Is that your final answer?</h1>
+			<h3 class="text-muted">No content to display...</h3>
+		</article>
+		<titan-feeds ng-show="vm.feeds"></titan-feeds>	
 	</section>
-	<aside layout="column" flex="25" flex-order="2">
-		<h1 class="text-muted">Here goes some content...</h1>
-	</aside>
+	<titan-sidebar></titan-sidebar>
 </md-content>
