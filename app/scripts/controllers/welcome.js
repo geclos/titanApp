@@ -24,12 +24,12 @@ function welcomeCtrl($scope, $location, $log, Account, Auth) {
 	vm.signUp = signUp;
 
 	function signUp() {
-		var userKey = localStorage.getItem('userKey'); 
-		if (userKey) {
-			Account.getAccount(userKey)
+		var accountKey = localStorage.getItem('accountKey'); 
+		if (accountKey) {
+			Account.getAccount(accountKey)
 				.then(function() {$location.path('/');});
 		} else {
-			Account.createAccount()
+			Account.setAccount()
 				.then(function() {redirect();})
 				.catch(function(e) {$log.error(e);});
 		}

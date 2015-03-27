@@ -25,23 +25,36 @@ function mainCtrl($log, Auth, Account, Feed, XMLParser, $mdSidenav) {
 	var vm = this;
 	
 	vm.addFeed = addFeed;
+	// vm.getFeed = getFeed;
 	vm.togglePopUp = togglePopUp;
 	vm.toggleRight = toggleRight;
+	vm.closePopUp = closePopUp;
 
 	function addFeed(feedUrl) {
 		XMLParser.retrieveFeed(feedUrl)
 			.then(function(feedObj) { 
 				Feed.addFeed(feedObj)
-					.then(function() { vm.feed = feedObj; });
+					.then(function(ref) { addFeedSuccess(ref.key(), feedObj); });
 			});
 	}
-	
+
+	function addFeedSuccess(feedKey, feedObj) {
+		vm.feed = feedObj;
+		alert(feedObj.title + 'Succesfully added.'); // jshint ignore:line
+	}
+
 	function togglePopUp() {
 		vm.popUp = vm.popUp ? false : true;
 	}
 
 	function toggleRight() {
 		$mdSidenav('right').toggle();
+	}
+
+	function closePopUp(e) {
+		if (e.keyCode === 27) {
+			vm.togglePopUp();
+		}
 	}
 }
 

@@ -24,14 +24,14 @@ angular.module('titanApp', [
 
 redirectFallback.$inject = ['$log', '$rootScope', '$location'];
 routeProvider.$inject = ['$routeProvider'];
-requireAuth.$inject = ['$q', 'Auth', 'Account', 'Feed'];
+requireAuth.$inject = ['$rootScope', '$q', 'Auth', 'Account', 'Feed'];
 
 function routeProvider($routeProvider) {
   $routeProvider
 	.when('/', {
 	  templateUrl: 'views/main.html',
-	  controller: 'mainCtrl',
 	  controllerAs: 'vm',
+	  controller: 'mainCtrl',
 	  resolve: {
 		auth : requireAuth
 	  }
@@ -56,11 +56,11 @@ function redirectFallback($log, $rootScope, $location) {
   });
 }
 
-function requireAuth($q, Auth, Account, Feed) {
+function requireAuth($rootScope, $q, Auth, Account, Feed) {
 	return Auth.requireAuth(true)
-		.then(function(userKey) {
-			return Account.getAccount(userKey)
-				.then(function() {return Feed.start(userKey);});
+		.then(function(accountKey) {
+			return Account.getAccount(accountKey)
+				.then(function() {$rootScope.$broadcast('Authenticated', accountKey);});
 		});
 	// Firebase implementation
 	/*

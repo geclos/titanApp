@@ -17,7 +17,7 @@ body {
   margin: 0;
 }
 
-body section:first-of-type {
+body section.main {
 	height: 100%;
 }
 
@@ -61,20 +61,14 @@ button.menu-toggle:hover {
 
 /* Main page styling */
 article.no-content {
-	padding-top: 15%;
 	text-align: center; 
 }
 
 article.no-content h1 {
-	background-color: #dadada;
-	background-clip: text; 
-	-webkit-background-clip: text;
-	-moz-background-clip: text;
-	color: transparent;
+	color: rgba(230,230,230, 0.8);
+    text-shadow: 0 2px 4px #fff, 0 0 0 #000, 0 2px 4px #fff;
 	font-weight: bold;
-	font-size: 3em;
 	margin-bottom: 0.3em;
-	text-shadow: 0 2px 3px rgba(255,255,255, 0.5);
 }
 
 article.no-content h3 {
@@ -135,9 +129,6 @@ md-sidenav section {
 		text-shadow: none;
 		background-color: none;
 		color: #dadada;
-		-webkit-background-clip: none;
-		-moz-background-clip: none;
-		background-clip: none;  
 	}
 
 	article.no-content h3 {

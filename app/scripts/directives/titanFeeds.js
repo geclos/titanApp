@@ -13,8 +13,8 @@ titanFeedsDirective.$inject = ['$log'];
 
 function titanFeedsDirective($log) {
 	var directive = {
-		controller: controller,
-		bindToController: true, 
+		// controller: controller,
+		// controllerAs: 'feeds', 
 		restrict: 'E', // E = Element, A = Attribute, C = Class, M = Comment
 		templateUrl: '../views/directives/titan-feeds.html'
 		// link: function($scope, iElm, iAttrs, controller) {}

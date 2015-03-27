@@ -9,64 +9,83 @@
 angular.module('titanApp')
 	.factory('Account', accountService);
 
-accountService.$inject = ['$rootScope', '$firebaseObject', '$firebaseArray',
-	'$log', '$q', 'FIREBASE_URL'];
+accountService.$inject = ['$q', '$log', '$firebaseObject', '$firebaseArray', 'FIREBASE_URL'];
 
-function accountService ($rootScope, $firebaseObj, $firebaseArr,
-	$log, $q, FIREBASE_URL) {
+function accountService ($q, $log, $firebaseObj, $firebaseArr, FIREBASE_URL) {
+	var	ref = new Firebase(FIREBASE_URL + '/accounts'); // jshint ignore:line
+	var Account = function () {
+		this.userAgent = navigator.userAgent;
+	};
 	var service = {
 		getAccount : getAccount,
-		createAccount : createAccount
+		setAccount : setAccount,
+		updateAccount : updateAccount,
+		removeAccount : removeAccount
 	};
 
 	return service;
 
-	function getAccount (userKey) {
-		try{
-			if (!userKey || typeof userKey !== 'string') {
+	function getAccount(accountKey) {
+		try {
+			if (arguments.length > 1 || arguments.length === 1 && typeof accountKey !== 'string') {
 				throw new Error('Arguments do not match specification');
 			}
-		}catch(e){
-			$log.error(e.message);
+		} catch(e) {
+			$log.error(e);
 		}
 
-		var ref = new Firebase(FIREBASE_URL + userKey); //jshint ignore:line
-		var account = $firebaseObj(ref);
-		return account.$loaded();
+		if (accountKey) {
+			var accountRef = ref.child('/' + accountKey);
+			return $firebaseObj(accountRef).$loaded();
+		} else {
+			return setAccount();
+		}
 	}
 
-	function createAccount () {
+	function setAccount() {
 		var deferred = $q.defer();
-		var data = {
-			id : Math.random().toString(36).slice(-8) //jshint ignore:line
-		};
-		var ref = new Firebase(FIREBASE_URL); //jshint ignore:line
-		var db = $firebaseArr(ref);
-		db.$add(data)
+		var account = new Account();
+		$firebaseArr(ref).$add(account)
 			.then(function(ref) {
-				localStore(ref, deferred);
-				deferred.resolve(ref.key());
+				var accountKey = ref.key();
+				localStorage.setItem('accountKey', accountKey);
+				deferred.resolve();
 			})
 			.catch(function(e) {deferred.reject(e);});
 
 		return deferred.promise;
-		// email/password implementation
-		/*var db = $firebaseAuth(ref);
-		db.$createUser(userData)
-			.then(function(user) {
-				localStorage.setItem('email', user.email);
-				localStorage.setItem('password', user.password);
-				deferred.resolve(user);
-			})
-			.catch(function(e) {
-				$log.error(e);
-				deferred.reject(e);
-			});*/
 	}
 
-	function localStore(ref, deferred) {
-		var userKey = ref.key();
-		localStorage.setItem('userKey', userKey);
+	function updateAccount(accountKey, obj) {
+		try {
+			if (arguments.length !== 2 || typeof accountKey !== 'string' ||
+				typeof obj !== 'object') {
+				throw new Error('Arguments do not match specification');
+			}
+		} catch(e) {
+			$log.error(e);
+		}
+
+		if (obj.hasOwnProperty('title')) {
+			var accountTitle = ref.child('/' + accountKey + '/title');
+			$firebaseObj(accountTitle).$value = obj.title;
+		} else {
+			return false;
+		}
 	}
+
+	function removeAccount(accountKey) {
+		try {
+			if (arguments.length !== 1 || typeof accountKey !== 'string') {
+				throw new Error('Arguments do not match specification');
+			}
+		} catch(e) {
+			$log.error(e);
+		}
+
+		var accountRef = ref.child('/' + accountKey);
+		return $firebaseObj(accountRef).$remove();
+	}
+
 }
 })();

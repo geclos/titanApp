@@ -14,7 +14,7 @@ titanPopUpDirective.$inject = [];
 function titanPopUpDirective(){
 	var directive = {
 		controller: controller,
-		bindToController: true, 
+		controllerAs: 'popup', 
 		restrict: 'A', // E = Element, A = Attribute, C = Class, M = Comment
 		// link: function($scope, iElm, iAttrs, controller) {}
 	};
@@ -22,6 +22,9 @@ function titanPopUpDirective(){
 	return directive;
 
 	function controller($scope, $element, $attrs, $transclude) {
+		/* jshint validthis: true */
+		var vm = this;
+		
 		// TODO...
 	}
 }

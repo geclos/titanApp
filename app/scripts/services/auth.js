@@ -19,31 +19,16 @@ function authService ($rootScope, $firebaseAuth, $log, $q, FIREBASE_URL) {
 	var auth = $firebaseAuth(ref);
 	*/
 	var service = {
-		signUp : signUp,
 		requireAuth : requireAuth
 	};
 
 	return service;
 
-	function signUp(userKey) {
-		localStorage.setItem('userKey', userKey);
-		return true;
-		// Firebase implementation
-		/*var deferred = $q.defer();
-		auth.$authwithOAuthPopUp()
-			.then(function (authData) {
-				deferred.resolve(authData);
-			})
-			.catch(function (e) { $log.error(e); });
-
-		return deferred.promise;*/
-	}
-
 	function requireAuth(bool) {
 		var deferred = $q.defer();
-		var userKey = localStorage.getItem('userKey');
-		if (userKey) {
-			deferred.resolve(userKey);
+		var accountKey = localStorage.getItem('accountKey');
+		if (accountKey) {
+			deferred.resolve(accountKey);
 		} else {
 			var e = 'AUTH_REQUIRED';
 			deferred.reject(e);

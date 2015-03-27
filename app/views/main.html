@@ -26,16 +26,16 @@
 	</md-content>
 
 	<!-- Pop Up -->
-	<section class="pop-up" ng-show="vm.popUp" layout="row" layout-fill  layout-align="center center" titan-pop-up>
+	<section class="pop-up" ng-show="vm.popUp" ng-keyup="vm.closePopUp($event)" layout="row" layout-fill layout-align="center center">
 		<md-card class=".md-whiteframe-z2">
 			<md-card-content>
 				<md-button class="pull-right md-button" ng-click="vm.togglePopUp()" aria-label><span class="text-muted glyphicon glyphicon-remove"></span></md-button>
-				<form ng-submit="vm.addFeed()">
+				<form name="addFeedForm" novalidate ng-submit="vm.addFeed(vm.feedUrl)" titan-add-feed-form>
 					<md-input-container>
-						<label for="feed-url">Feed URL</label>
-						<input type="url" name="feed-url" ng-model="vm.feedUrl" required/>
+						<label for="feedUrl">Feed URL</label>
+						<input type="url" name="feedUrl" ng-model="vm.feedUrl" ng-required="true"/>
 					</md-input-container>
-					<md-button type="submit" name="submit" class="md-button md-primary md-raised">Submit</md-button>
+					<md-button type="submit" name="submit" ng-disabled="addFeedForm.feedUrl.$invalid || addFeedForm.feedUrl.$pristine" class="md-button md-primary md-raised">Submit</md-button>
 				</form>
 			</md-card-content>
 		</md-card>

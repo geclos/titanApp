@@ -1,13 +1,13 @@
 <section class="content">
-	<article ng-repeat="article in vm.feeds">
+	<article ng-repeat="post in vm.feed">
 		<header>
 			<hgroup>
-				<h1>{{article.title}}</h1>
-				<h3>{{article.metadata.author}}</h3>
+				<h1>{{post.title}}</h1>
+				<h3>{{post.metadata.author}}</h3>
 			</hgroup>
-			<small>{{article.metadata.datePublished}}</small>
+			<small>{{post.metadata.datePublished}}</small>
 		</header>
-		{{article.contents}}
+		{{post.contents}}
 		<footer>
 			<div class="pull-right">
 				<button type="button" class="btn btn-link">
@@ -15,7 +15,7 @@
 				</button>
 			</div>
 			<div class="pull-left">
-				<a href="{{article.link}}" class="btn btn-link">Continue reading...</a>
+				<a href="{{post.link}}" class="btn btn-link">Continue reading...</a>
 			</div>
 		</footer>
 	</article>
