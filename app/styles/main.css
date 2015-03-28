@@ -93,6 +93,21 @@ section.pop-up md-card {
 	min-width: 30%;
 }
 
+section.pop-up md-input-container {
+	padding-botom: 0.5em;
+}
+
+section.pop-up button[type="submit"] {
+	margin: 9px 0 9px;
+}
+
+section.pop-up md-progress-circular {
+	-webkit-transform: scale(0.5) !important;
+	-ms-transform: scale(0.5) !important;
+	-o-transform: scale(0.5) !important;
+	transform: scale(0.5) !important;
+}
+
 /* Sidebar styling */
 md-sidenav section {
 	padding: 1em;

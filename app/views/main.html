@@ -26,16 +26,17 @@
 	</md-content>
 
 	<!-- Pop Up -->
-	<section class="pop-up" ng-show="vm.popUp" ng-keyup="vm.closePopUp($event)" layout="row" layout-fill layout-align="center center">
+	<section class="pop-up" ng-show="vm.popUp" ng-keyup="vm.togglePopUp($event)" layout="row" layout-fill layout-align="center center">
 		<md-card class=".md-whiteframe-z2">
 			<md-card-content>
 				<md-button class="pull-right md-button" ng-click="vm.togglePopUp()" aria-label><span class="text-muted glyphicon glyphicon-remove"></span></md-button>
-				<form name="addFeedForm" novalidate ng-submit="vm.addFeed(vm.feedUrl)" titan-add-feed-form>
+				<form name="vm.form" novalidate ng-submit="vm.addFeed(vm.feedUrl)">
 					<md-input-container>
 						<label for="feedUrl">Feed URL</label>
-						<input type="url" name="feedUrl" ng-model="vm.feedUrl" ng-required="true"/>
+						<input type="url" name="feedUrl" ng-model="vm.feedUrl" ng-required="url"/>
 					</md-input-container>
-					<md-button type="submit" name="submit" ng-disabled="addFeedForm.feedUrl.$invalid || addFeedForm.feedUrl.$pristine" class="md-button md-primary md-raised">Submit</md-button>
+					<md-button type="submit" name="submit" ng-disabled="vm.feedUrl.$invalid || vm.feedUrl.$pristine" class="md-button md-primary md-raised" ng-hide="vm.addingFeed">Submit</md-button>
+					<md-progress-circular md-mode="indeterminate" ng-show="vm.addingFeed"></md-progress-circular>
 				</form>
 			</md-card-content>
 		</md-card>

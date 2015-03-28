@@ -8,7 +8,7 @@ google.load('feeds', '1'); //jshint ignore:line
 * Description
 */
 angular.module('titanApp')
-	.factory('XMLParser', XMLParserService);
+	.service('XMLParser', XMLParserService);
 
 	XMLParserService.$inject = ['$log', '$q', '$http'];
 

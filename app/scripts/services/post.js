@@ -12,16 +12,17 @@ angular.module('titanApp')
 postService.$inject = ['$rootScope', '$log', '$firebaseObject', '$firebaseArray', 'FIREBASE_URL'];
 
 function postService($rootScope, $log, $firebaseObj, $firebaseArr, FIREBASE_URL) {
-	var ref, feedKey; 
+	var ref, accountKey;
 	var Post = function (postObj) {
 		this.title = postObj.title;
 		this.link = postObj.link;
 		this.author = postObj.author;
 		this.content = postObj.content;
 		this.contentSnippet = postObj.contentSnippet;
-		this.datePublished = postObj.datePublished;
+		this.publishedDate = postObj.publishedDate;
 	};
 	var service = {
+		startService : startService,
 		getPost : getPost,
 		setPost : setPost,
 		updatePost : updatePost,
@@ -30,10 +31,12 @@ function postService($rootScope, $log, $firebaseObj, $firebaseArr, FIREBASE_URL)
 
 	return service;
 
-	function start(feedKey) {
+	function startService(data) {
+		accountKey = data;
+		ref = new Firebase(FIREBASE_URL + '/posts/' + accountKey); // jshint ignore:line
 	}
 
-	function getPost(postKey) {
+	function getPost(feedKey, postKey) {
 		try {
 			if (arguments.length > 1 || arguments.length === 1 && typeof postKey !== 'string') {
 				throw new Error('Arguments do not match specification');
@@ -43,26 +46,36 @@ function postService($rootScope, $log, $firebaseObj, $firebaseArr, FIREBASE_URL)
 			$log.error(e);
 		}
 
-		if (postKey) {
-			var postRef = ref.child('/' + postKey);
-			return $firebaseObj(postRef).$loaded();
-		} else {
-			return $firebaseArr(ref).$loaded();
-		}
+		var postRef = ref.child('/' + feedKey + '/' + postKey);
+		return $firebaseObj(postRef).$loaded();
 	}
 
-	function setPost(postObj) {
+	function setPost(feedKey, entriesArr) {
 		try {
-			if (arguments.length !== 1 || typeof postObj !== 'object') {
+			if (arguments.length !== 2 ||
+				entriesArr.constructor !== Object &&
+				entriesArr.constructor !== Array) {
 				throw new Error('Arguments do not match specification');
 			}
 		} catch(e) {
 			$log.error(e);
 		}
-		
-		var post = new Post(postObj);
-		var db = $firebaseArr(ref);
-		return db.$add(Post); // returns ref to object seted
+
+		var post;
+		var postsArr = [];
+		for (var i = entriesArr.length - 1; i >= 0; i--) {
+		 	post = new Post(entriesArr[i]);
+		 	postsArr.push(post);
+		} 
+		var childRef = ref.child(feedKey);
+		var db = $firebaseObj(childRef);
+	 	return db.$loaded()
+	 		.then(function() { return pushPosts(db, postsArr); });
+	}
+
+	function pushPosts(db, postsArr) {
+		db.$value = postsArr;
+		return db.$save(); // returns ref to object set
 	}
 
 	function updatePost(postKey, obj) {

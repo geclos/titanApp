@@ -12,11 +12,12 @@ angular.module('titanApp')
 accountService.$inject = ['$q', '$log', '$firebaseObject', '$firebaseArray', 'FIREBASE_URL'];
 
 function accountService ($q, $log, $firebaseObj, $firebaseArr, FIREBASE_URL) {
-	var	ref = new Firebase(FIREBASE_URL + '/accounts'); // jshint ignore:line
+	var	ref, accountKey; // jshint ignore:line
 	var Account = function () {
 		this.userAgent = navigator.userAgent;
 	};
 	var service = {
+		startService : startService,
 		getAccount : getAccount,
 		setAccount : setAccount,
 		updateAccount : updateAccount,
@@ -24,6 +25,11 @@ function accountService ($q, $log, $firebaseObj, $firebaseArr, FIREBASE_URL) {
 	};
 
 	return service;
+
+	function startService(data) {
+		accountKey = data;
+		ref = new Firebase(FIREBASE_URL + '/accounts/' + accountKey); // jshint ignore:line
+	}
 
 	function getAccount(accountKey) {
 		try {
@@ -36,7 +42,7 @@ function accountService ($q, $log, $firebaseObj, $firebaseArr, FIREBASE_URL) {
 
 		if (accountKey) {
 			var accountRef = ref.child('/' + accountKey);
-			return $firebaseObj(accountRef).$loaded();
+			return $firebaseObj(accountRef);
 		} else {
 			return setAccount();
 		}

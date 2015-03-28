@@ -7,7 +7,7 @@
 * Description
 */
 angular.module('titanApp')
-	.factory('Auth', authService);
+	.service('Auth', authService);
 
 authService.$inject = ['$rootScope','$firebaseAuth', '$log', '$q',
 	'FIREBASE_URL'];
@@ -28,7 +28,6 @@ function authService ($rootScope, $firebaseAuth, $log, $q, FIREBASE_URL) {
 		var deferred = $q.defer();
 		var accountKey = localStorage.getItem('accountKey');
 		if (accountKey) {
-			$rootScope.$broadcast('Authenticated', accountKey);
 			deferred.resolve(accountKey);
 		} else {
 			var e = 'AUTH_REQUIRED';

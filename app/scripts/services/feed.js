@@ -1,4 +1,4 @@
-(function () {
+(function() {
 'use strict';
 
 /**
@@ -7,12 +7,12 @@
 * Description
 */
 angular.module('titanApp')
-	.factory('Feed', feedService);
+	.service('Feed', feedService);
 
 feedService.$inject = ['$rootScope', '$log', '$firebaseObject', '$firebaseArray', 'FIREBASE_URL'];
 
 function feedService($rootScope, $log, $firebaseObj, $firebaseArr, FIREBASE_URL) {
-	var ref, accountKey; 
+	var	ref, accountKey; 
 	var Feed = function (feedObj) {
 		this.title = feedObj.title;
 		this.description = feedObj.description;
@@ -21,18 +21,19 @@ function feedService($rootScope, $log, $firebaseObj, $firebaseArr, FIREBASE_URL)
 		this.category = 'uncategorized';
 	};
 	var service = {
+		startService : startService,
 		getFeed : getFeed,
 		setFeed : setFeed,
 		updateFeed : updateFeed,
 		removeFeed : removeFeed
 	};
 
-	$rootScope.$on('Authenticated', function(ev, data) {
+	return service;
+
+	function startService(data) {
 		accountKey = data;
 		ref = new Firebase(FIREBASE_URL + '/feeds/' + accountKey); // jshint ignore:line
-	});
-
-	return service;
+	}
 
 	function getFeed(feedKey) {
 		try {

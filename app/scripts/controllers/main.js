@@ -13,44 +13,60 @@ angular.module('titanApp')
 
 mainCtrl.$inject = [
 	'$log',
-	'Auth', 
+	'$mdSidenav',
+	'Auth',
 	'Account',
 	'Feed',
-	'XMLParser',
-	'$mdSidenav'
+	'Post',
+	'XMLParser'
   ];
 
-function mainCtrl($log, Auth, Account, Feed, XMLParser, $mdSidenav) {
+function mainCtrl($log, $mdSidenav, Auth, Account, Feed, Post, XMLParser) {
 	/* jshint validthis: true */
 	var vm = this;
+	// var form = $scope.form;
 
-	vm.categories;
-	vm.addFeed = addFeed;
+	// vm.categories;
 	// vm.getFeed = getFeed;
 	vm.togglePopUp = togglePopUp;
 	vm.toggleRight = toggleRight;
-	vm.closePopUp = closePopUp;
+	vm.addFeed = addFeed;
 
 	function addFeed(feedUrl) {
+		vm.addingFeed = true;
 		XMLParser.retrieveFeed(feedUrl)
-			.then(function(feedObj) { return Feed.setFeed(feedObj); })
-			.then(function(ref) { addFeedSuccess(ref.key()); });
+			.then(function(feedObj) { 
+				return Feed.setFeed(feedObj)
+				.then(function(ref) { return Post.setPost(ref.key(), feedObj.entries); })
+				.then(function(ref) { addFeedSuccess(ref.key()); });
+			})
+			.catch(function(e) { $log.error(e); });
 	}
 
 	function addFeedSuccess(feedKey) {
 		$log.info(feedKey + ' Succesfully added.');
+		vm.togglePopUp();
+		delete vm.feedUrl;
+		delete vm.addingFeed;
+		vm.form.$setPristine();
+		vm.form.$setUntouched();
 	}
 
-	function togglePopUp() {
-		vm.popUp = vm.popUp ? false : true;
+	function togglePopUp(ev) {
+		if (!ev || ev && ev.keyCode === 27) {
+			vm.popUp = vm.popUp ? false : true;
+			vm.form.$setPristine();
+			vm.form.$setUntouched();
+			vm.form.feedUrl.$setViewValue("");
+		}
 	}
 
 	function toggleRight() {
 		$mdSidenav('right').toggle();
 	}
 
-	function closePopUp(e) {
-		if (e.keyCode === 27) {
+	function closePopUp(ev) {
+		if (ev.keyCode === 27) {
 			vm.togglePopUp();
 		}
 	}
