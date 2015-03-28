@@ -63,7 +63,7 @@ function feedService($rootScope, $log, $firebaseObj, $firebaseArr, FIREBASE_URL)
 		
 		var feed = new Feed(feedObj);
 		var db = $firebaseArr(ref);
-		return db.$add(feed); // returns ref to object seted
+		return db.$add(feed); // returns ref to object setted
 	}
 
 	function updateFeed(feedKey, obj) {

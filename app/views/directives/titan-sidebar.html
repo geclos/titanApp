@@ -3,8 +3,12 @@
 		<md-button class="md-button md-primary" ng-click="vm.togglePopUp()"><span class="glyphicon glyphicon-plus"></span> Add feed</md-button>
 	</section>
 	<section ng-show="vm.categories">
-		<ul>
-			<li ng-repeat="feedTitle in vm.categories"></li>
+		<ul class="list-unstyled">
+			<li ng-repeat="category in vm.categories">
+				<ul class="list-unstyled">
+					<li ng-repeat="feed in category"></li>
+				</ul>
+			</li>
 		</ul>
 	</section>
 </md-sidenav>

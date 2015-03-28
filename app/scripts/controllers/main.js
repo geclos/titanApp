@@ -23,7 +23,8 @@ mainCtrl.$inject = [
 function mainCtrl($log, Auth, Account, Feed, XMLParser, $mdSidenav) {
 	/* jshint validthis: true */
 	var vm = this;
-	
+
+	vm.categories;
 	vm.addFeed = addFeed;
 	// vm.getFeed = getFeed;
 	vm.togglePopUp = togglePopUp;
@@ -32,7 +33,7 @@ function mainCtrl($log, Auth, Account, Feed, XMLParser, $mdSidenav) {
 
 	function addFeed(feedUrl) {
 		XMLParser.retrieveFeed(feedUrl)
-			.then(function(feedObj) { Feed.setFeed(feedObj); })
+			.then(function(feedObj) { return Feed.setFeed(feedObj); })
 			.then(function(ref) { addFeedSuccess(ref.key()); });
 	}
 
