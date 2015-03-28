@@ -65,8 +65,8 @@ article.no-content {
 }
 
 article.no-content h1 {
-	color: rgba(230,230,230, 0.8);
-    text-shadow: 0 2px 4px #fff, 0 0 0 #000, 0 2px 4px #fff;
+	color: rgba(230,230,230, 0.9);
+    text-shadow: 0 2px 4px #fff, 0 0 0 #222, 0 2px 4px #fff;
 	font-weight: bold;
 	margin-bottom: 0.3em;
 }

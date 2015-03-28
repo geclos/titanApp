@@ -32,15 +32,12 @@ function mainCtrl($log, Auth, Account, Feed, XMLParser, $mdSidenav) {
 
 	function addFeed(feedUrl) {
 		XMLParser.retrieveFeed(feedUrl)
-			.then(function(feedObj) { 
-				Feed.addFeed(feedObj)
-					.then(function(ref) { addFeedSuccess(ref.key(), feedObj); });
-			});
+			.then(function(feedObj) { Feed.setFeed(feedObj); })
+			.then(function(ref) { addFeedSuccess(ref.key()); });
 	}
 
-	function addFeedSuccess(feedKey, feedObj) {
-		vm.feed = feedObj;
-		alert(feedObj.title + 'Succesfully added.'); // jshint ignore:line
+	function addFeedSuccess(feedKey) {
+		$log.info(feedKey + ' Succesfully added.');
 	}
 
 	function togglePopUp() {

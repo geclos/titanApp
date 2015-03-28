@@ -24,7 +24,7 @@ angular.module('titanApp', [
 
 redirectFallback.$inject = ['$log', '$rootScope', '$location'];
 routeProvider.$inject = ['$routeProvider'];
-requireAuth.$inject = ['$rootScope', '$q', 'Auth', 'Account', 'Feed'];
+requireAuth.$inject = ['$q', 'Auth', 'Account', 'Feed'];
 
 function routeProvider($routeProvider) {
   $routeProvider
@@ -56,12 +56,9 @@ function redirectFallback($log, $rootScope, $location) {
   });
 }
 
-function requireAuth($rootScope, $q, Auth, Account, Feed) {
+function requireAuth($q, Auth, Account, Feed) {
 	return Auth.requireAuth(true)
-		.then(function(accountKey) {
-			return Account.getAccount(accountKey)
-				.then(function() {$rootScope.$broadcast('Authenticated', accountKey);});
-		});
+		.then(function(accountKey) { return Account.getAccount(accountKey); });
 	// Firebase implementation
 	/*
 	var deferred = $q.defer();

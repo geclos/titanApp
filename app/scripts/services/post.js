@@ -28,11 +28,6 @@ function postService($rootScope, $log, $firebaseObj, $firebaseArr, FIREBASE_URL)
 		removePost : removePost
 	};
 
-	$rootScope.$on('feedSelected', function(data) {
-		feedKey = data;
-		ref = new Firebase(FIREBASE_URL + '/posts'); // jshint ignore:line
-	});
-
 	return service;
 
 	function start(feedKey) {

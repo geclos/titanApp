@@ -27,9 +27,9 @@ function feedService($rootScope, $log, $firebaseObj, $firebaseArr, FIREBASE_URL)
 		removeFeed : removeFeed
 	};
 
-	$rootScope.$on('Authenticated', function(data) {
+	$rootScope.$on('Authenticated', function(ev, data) {
 		accountKey = data;
-		ref = new Firebase(FIREBASE_URL + '/feeds'); // jshint ignore:line
+		ref = new Firebase(FIREBASE_URL + '/feeds/' + accountKey); // jshint ignore:line
 	});
 
 	return service;
