@@ -9,9 +9,9 @@
 angular.module('titanApp')
 	.service('Feed', feedService);
 
-feedService.$inject = ['$rootScope', '$log', '$firebaseObject', '$firebaseArray', 'FIREBASE_URL'];
+feedService.$inject = ['$q', '$sce', '$log', '$firebaseObject', '$firebaseArray', 'FIREBASE_URL'];
 
-function feedService($rootScope, $log, $firebaseObj, $firebaseArr, FIREBASE_URL) {
+function feedService($q, $sce, $log, $firebaseObj, $firebaseArr, FIREBASE_URL) {
 	var	ref, accountKey; 
 	var Feed = function (feedObj) {
 		this.title = feedObj.title;
@@ -62,9 +62,18 @@ function feedService($rootScope, $log, $firebaseObj, $firebaseArr, FIREBASE_URL)
 			$log.error(e);
 		}
 		
+		var deferred = $q.defer();
 		var feed = new Feed(feedObj);
-		var db = $firebaseArr(ref);
-		return db.$add(feed); // returns ref to object setted
+		var childRef = ref.child(feed.title);
+		childRef.set(feed, function(e) { 
+			if (e) {
+				deferred.reject(e);
+			} else {
+				deferred.resolve(childRef.key());
+			} 
+		});
+		
+		return deferred.promise;
 	}
 
 	function updateFeed(feedKey, obj) {
@@ -78,8 +87,17 @@ function feedService($rootScope, $log, $firebaseObj, $firebaseArr, FIREBASE_URL)
 		}
 
 		if (obj.hasOwnProperty('title')) {
-			var feedTitle = ref.child(accountKey + '/' + feedKey + '/title');
-			$firebaseObj(feedTitle).$value = obj.title;
+			var deferred = $q.defer();
+			var childRef = ref.child(accountKey + '/' + feedKey + '/title');
+			childRef.set(obj.title, function(e) { 
+				if (e) {
+					deferred.reject(e);
+				} else {
+					deferred.resolve();
+				}
+			});
+
+			return deferred.promise;
 		} else {
 			return false;
 		}

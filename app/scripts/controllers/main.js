@@ -37,14 +37,17 @@ function mainCtrl($log, $mdSidenav, Auth, Account, Feed, Post, XMLParser) {
 		XMLParser.retrieveFeed(feedUrl)
 			.then(function(feedObj) { 
 				return Feed.setFeed(feedObj)
-				.then(function(ref) { return Post.setPost(ref.key(), feedObj.entries); })
-				.then(function(ref) { addFeedSuccess(ref.key()); });
+					.then(function(feedKey) {
+						Account.updateAccount({subscriptions : feedKey}); 
+						return Post.setPost(feedKey, feedObj.entries)
+							.then(addFeedSuccess(feedKey));
+					});
 			})
 			.catch(function(e) { $log.error(e); });
 	}
 
 	function addFeedSuccess(feedKey) {
-		$log.info(feedKey + ' Succesfully added.');
+		$log.info(feedKey + ' was succesfully added.');
 		vm.togglePopUp();
 		delete vm.feedUrl;
 		delete vm.addingFeed;
@@ -57,7 +60,7 @@ function mainCtrl($log, $mdSidenav, Auth, Account, Feed, Post, XMLParser) {
 			vm.popUp = vm.popUp ? false : true;
 			vm.form.$setPristine();
 			vm.form.$setUntouched();
-			vm.form.feedUrl.$setViewValue("");
+			vm.form.feedUrl.$setViewValue('');
 		}
 	}
 

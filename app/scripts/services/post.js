@@ -9,9 +9,9 @@
 angular.module('titanApp')
 	.service('Post', postService);
 
-postService.$inject = ['$rootScope', '$log', '$firebaseObject', '$firebaseArray', 'FIREBASE_URL'];
+postService.$inject = ['$q', '$log', '$firebaseObject', '$firebaseArray', 'FIREBASE_URL'];
 
-function postService($rootScope, $log, $firebaseObj, $firebaseArr, FIREBASE_URL) {
+function postService($q, $log, $firebaseObj, $firebaseArr, FIREBASE_URL) {
 	var ref, accountKey;
 	var Post = function (postObj) {
 		this.title = postObj.title;
@@ -61,16 +61,22 @@ function postService($rootScope, $log, $firebaseObj, $firebaseArr, FIREBASE_URL)
 			$log.error(e);
 		}
 
-		var post;
+		var post, e;
 		var postsArr = [];
+		var deferred = $q.defer();
+		var childRef = ref.child(feedKey);
 		for (var i = entriesArr.length - 1; i >= 0; i--) {
 		 	post = new Post(entriesArr[i]);
-		 	postsArr.push(post);
-		} 
-		var childRef = ref.child(feedKey);
-		var db = $firebaseObj(childRef);
-	 	return db.$loaded()
-	 		.then(function() { return pushPosts(db, postsArr); });
+		 	childRef.push(post, function(e) { 
+		 		if (e) {
+		 			deferred.reject(e);
+		 		} else if (i === 0) {
+					deferred.resolve();
+		 		}
+		 	});
+		}
+		
+		return deferred.promise;
 	}
 
 	function pushPosts(db, postsArr) {
