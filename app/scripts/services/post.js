@@ -38,7 +38,7 @@ function postService($q, $log, $firebaseObj, $firebaseArr, FIREBASE_URL) {
 
 	function getPost(feedKey, postKey) {
 		try {
-			if (arguments.length > 1 || arguments.length === 1 && typeof postKey !== 'string') {
+			if (arguments.length > 2 || arguments.length === 1 && typeof feedKey !== 'string') {
 				throw new Error('Arguments do not match specification');
 			}
 		} catch(e) {
@@ -46,8 +46,13 @@ function postService($q, $log, $firebaseObj, $firebaseArr, FIREBASE_URL) {
 			$log.error(e);
 		}
 
-		var postRef = ref.child('/' + feedKey + '/' + postKey);
-		return $firebaseObj(postRef).$loaded();
+		if (postKey) {
+			var postRef = ref.child('/' + feedKey + '/' + postKey);
+			return $firebaseObj(postRef);
+		} else {
+			var postsRef = ref.child('/' + feedKey);
+			return $firebaseArr(postsRef);
+		}
 	}
 
 	function setPost(feedKey, entriesArr) {
@@ -61,21 +66,21 @@ function postService($q, $log, $firebaseObj, $firebaseArr, FIREBASE_URL) {
 			$log.error(e);
 		}
 
-		var post, e;
+		var post;
 		var postsArr = [];
 		var deferred = $q.defer();
 		var childRef = ref.child(feedKey);
-		for (var i = entriesArr.length - 1; i >= 0; i--) {
-		 	post = new Post(entriesArr[i]);
-		 	childRef.push(post, function(e) { 
+		entriesArr.forEach(function(entry, i) {
+		 	post = new Post(entry);
+			childRef.update(post, function(e) { 
 		 		if (e) {
 		 			deferred.reject(e);
-		 		} else if (i === 0) {
-					deferred.resolve();
+		 		} else if (!e && i === entriesArr.length - 1) {
+		 			deferred.resolve();
 		 		}
 		 	});
-		}
-		
+		});
+
 		return deferred.promise;
 	}
 

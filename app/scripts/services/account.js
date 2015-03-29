@@ -20,8 +20,9 @@ function accountService ($q, $log, $firebaseObj, $firebaseArr, FIREBASE_URL) {
 	var service = {
 		startService : startService,
 		getAccount : getAccount,
+		getSubscriptions : getSubscriptions,
+		setFeed : setFeed,
 		setAccount : setAccount,
-		updateAccount : updateAccount,
 		removeAccount : removeAccount
 	};
 
@@ -32,21 +33,29 @@ function accountService ($q, $log, $firebaseObj, $firebaseArr, FIREBASE_URL) {
 		ref = new Firebase(FIREBASE_URL + '/accounts/' + accountKey); // jshint ignore:line
 	}
 
-	function getAccount(accountKey) {
+	function getAccount() {
 		try {
-			if (arguments.length > 1 || arguments.length === 1 && typeof accountKey !== 'string') {
+			if (arguments.length !== 0) {
 				throw new Error('Arguments do not match specification');
 			}
 		} catch(e) {
 			$log.error(e);
 		}
 
-		if (accountKey) {
-			var accountRef = ref.child('/' + accountKey);
-			return $firebaseObj(accountRef);
-		} else {
-			return setAccount();
+		return $firebaseObj(ref);
+	}
+
+	function getSubscriptions() {
+		try {
+			if (arguments.length !== 0) {
+				throw new Error('Arguments do not match specification');
+			}
+		} catch(e) {
+			$log.error(e);
 		}
+
+		var childRef = ref.child('subscriptions');
+		return $firebaseArr(childRef);
 	}
 
 	function setAccount() {
@@ -64,10 +73,10 @@ function accountService ($q, $log, $firebaseObj, $firebaseArr, FIREBASE_URL) {
 		return deferred.promise;
 	}
 
-	function updateAccount(obj) {
+	function setFeed(feedKey) {
 		try {
 			if (arguments.length !== 1 ||
-				typeof obj !== 'object') {
+				typeof feedKey !== 'string') {
 				throw new Error('Arguments do not match specification');
 			}
 		} catch(e) {
@@ -75,13 +84,15 @@ function accountService ($q, $log, $firebaseObj, $firebaseArr, FIREBASE_URL) {
 		}
 
 		var deferred = $q.defer();
-		for (var key in obj) {
-			if (key === 'subscriptions') {
-				ref.child(key + '/' + obj[key]).set(true);
+		ref.child('subscriptions').push(feedKey, function(e) {
+			if (e) {
+				deferred.reject(e);
 			} else {
-				ref.child(key).set(obj[key]);
+				deferred.resolve();
 			}
-		}
+		});
+
+		return deferred.promise;
 	}
 
 	function removeAccount(accountKey) {

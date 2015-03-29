@@ -28,21 +28,31 @@ function mainCtrl($log, $mdSidenav, Auth, Account, Feed, Post, XMLParser) {
 
 	// vm.categories;
 	// vm.getFeed = getFeed;
+	vm.subscriptions = getSubscriptions();
 	vm.togglePopUp = togglePopUp;
 	vm.toggleRight = toggleRight;
 	vm.addFeed = addFeed;
+	vm.displayPosts = displayPosts;
 
-	function addFeed(feedUrl) {
+	function addFeed(feedUrl, category) {
 		vm.addingFeed = true;
+		var feedKey, googleFeedObj;
+		if (category) {
+			var feedCat = category;
+		}
 		XMLParser.retrieveFeed(feedUrl)
-			.then(function(feedObj) { 
-				return Feed.setFeed(feedObj)
-					.then(function(feedKey) {
-						Account.updateAccount({subscriptions : feedKey}); 
-						return Post.setPost(feedKey, feedObj.entries)
-							.then(addFeedSuccess(feedKey));
-					});
+			.then(function(obj) {
+				googleFeedObj = obj;
+				return Feed.setFeed(googleFeedObj);
 			})
+			.then(function(key) {
+				feedKey = key;
+				return Post.setPost(feedKey, googleFeedObj.entries);
+			})
+			.then(function() {
+				return Account.setFeed(feedKey);
+			})
+			.then(function() { addFeedSuccess(feedKey); } )
 			.catch(function(e) { $log.error(e); });
 	}
 
@@ -53,6 +63,14 @@ function mainCtrl($log, $mdSidenav, Auth, Account, Feed, Post, XMLParser) {
 		delete vm.addingFeed;
 		vm.form.$setPristine();
 		vm.form.$setUntouched();
+	}
+
+	function getSubscriptions() {
+		return Account.getSubscriptions();
+	}
+
+	function displayPosts(feedKey) {
+		vm.posts = Post.getPost(feedKey);
 	}
 
 	function togglePopUp(ev) {

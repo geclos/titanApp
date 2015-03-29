@@ -2,13 +2,10 @@
 	<section>
 		<md-button class="md-button md-primary" ng-click="vm.togglePopUp()"><span class="glyphicon glyphicon-plus"></span> Add feed</md-button>
 	</section>
-	<section ng-show="vm.categories">
+	<section ng-show="vm.subscriptions">
+		<h3><strong>Your feeds</strong></h3>
 		<ul class="list-unstyled">
-			<li ng-repeat="category in vm.categories">
-				<ul class="list-unstyled">
-					<li ng-repeat="feed in category"></li>
-				</ul>
-			</li>
+			<li ng-repeat="feed in vm.subscriptions"><button class="btn btn-link" ng-click="vm.displayPosts(feed.$value)">{{feed.$value}}</button></li>
 		</ul>
 	</section>
 </md-sidenav>
