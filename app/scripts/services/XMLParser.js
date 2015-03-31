@@ -21,8 +21,7 @@ angular.module('titanApp')
 
 		function retrieveFeed(feedUrl) {
 			var deferred = $q.defer();
-			var updatedFeed = new google.feeds.Feed(feedUrl); //jshint ignore:line
-			// Retrieves feed content from Google API
+			var updatedFeed =  new google.feeds.Feed(feedUrl); //jshint ignore:line
 			updatedFeed.load(function (result) {
 				if (!result.error) {
 					deferred.resolve(result.feed);

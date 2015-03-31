@@ -17,7 +17,8 @@ function postService($q, $log, $firebaseObj, $firebaseArr, FIREBASE_URL) {
 		this.title = postObj.title;
 		this.link = postObj.link;
 		this.author = postObj.author;
-		this.content = postObj.content;
+		this.mainImg = stripImg(postObj.content);
+		this.content = cleanHTML(postObj.content);
 		this.contentSnippet = postObj.contentSnippet;
 		this.publishedDate = postObj.publishedDate;
 	};
@@ -48,10 +49,10 @@ function postService($q, $log, $firebaseObj, $firebaseArr, FIREBASE_URL) {
 
 		if (postKey) {
 			var postRef = ref.child('/' + feedKey + '/' + postKey);
-			return $firebaseObj(postRef);
+			return $firebaseObj(postRef).$loaded();
 		} else {
 			var postsRef = ref.child('/' + feedKey);
-			return $firebaseArr(postsRef);
+			return $firebaseArr(postsRef).$loaded();
 		}
 	}
 
@@ -72,7 +73,7 @@ function postService($q, $log, $firebaseObj, $firebaseArr, FIREBASE_URL) {
 		var childRef = ref.child(feedKey);
 		entriesArr.forEach(function(entry, i) {
 		 	post = new Post(entry);
-			childRef.update(post, function(e) { 
+			childRef.push(post, function(e) { 
 		 		if (e) {
 		 			deferred.reject(e);
 		 		} else if (!e && i === entriesArr.length - 1) {
@@ -116,6 +117,30 @@ function postService($q, $log, $firebaseObj, $firebaseArr, FIREBASE_URL) {
 
 		var postRef = ref.child('/' + postKey);
 		return $firebaseObj(postRef).$remove();
+	}
+
+	function stripImg(content) {
+		var imgIndex = content.indexOf('<img');
+		if ( imgIndex !== -1) {
+			var mainImg = content.match(/<img.+?>/);
+			var el = document.createElement('div'); 
+			el.innerHTML = mainImg;
+			mainImg = el.getElementsByTagName('img');
+			el.remove();
+			var imgSrc = mainImg[0].getAttribute('src');
+			if (imgSrc.indexOf('.gif') > -1 || imgSrc.indexOf('.img')  > -1) {
+				return null;
+			} else {
+				return imgSrc;
+			}
+		} else {
+			return null;
+		}
+	}
+
+	function cleanHTML(content) {
+		content = content.replace(/<br>|\/n|<img.+?>|<p><\/p>/gi, '');
+		return content.slice(content.indexOf('<'), content.lastIndexOf('>') + 1);  
 	}
 }
 

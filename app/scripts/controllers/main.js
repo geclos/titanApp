@@ -24,36 +24,37 @@ mainCtrl.$inject = [
 function mainCtrl($log, $mdSidenav, Auth, Account, Feed, Post, XMLParser) {
 	/* jshint validthis: true */
 	var vm = this;
-	// var form = $scope.form;
+	var feedKey, feedCat, googleFeedObj;
 
-	// vm.categories;
-	// vm.getFeed = getFeed;
+	vm.addFeed = addFeed;
+	vm.displayPosts = displayPosts;
 	vm.subscriptions = getSubscriptions();
 	vm.togglePopUp = togglePopUp;
 	vm.toggleRight = toggleRight;
-	vm.addFeed = addFeed;
-	vm.displayPosts = displayPosts;
 
 	function addFeed(feedUrl, category) {
 		vm.addingFeed = true;
-		var feedKey, googleFeedObj;
-		if (category) {
-			var feedCat = category;
-		}
+		feedCat = category ? category : null;
 		XMLParser.retrieveFeed(feedUrl)
-			.then(function(obj) {
-				googleFeedObj = obj;
-				return Feed.setFeed(googleFeedObj);
-			})
-			.then(function(key) {
-				feedKey = key;
-				return Post.setPost(feedKey, googleFeedObj.entries);
-			})
-			.then(function() {
-				return Account.setFeed(feedKey);
-			})
-			.then(function() { addFeedSuccess(feedKey); } )
+			.then(setFeed)
+			.then(setPost)
+			.then(updateAccount)
+			.then(addFeedSuccess(feedKey))
 			.catch(function(e) { $log.error(e); });
+	}
+
+	function setFeed(obj) {
+		googleFeedObj = obj;
+		return Feed.setFeed(googleFeedObj);
+	}
+
+	function setPost(key) {
+		feedKey = key;
+		return Post.setPost(feedKey, googleFeedObj.entries);
+	}
+
+	function updateAccount() {
+		return Account.setFeed(feedKey);
 	}
 
 	function addFeedSuccess(feedKey) {
@@ -70,7 +71,11 @@ function mainCtrl($log, $mdSidenav, Auth, Account, Feed, Post, XMLParser) {
 	}
 
 	function displayPosts(feedKey) {
-		vm.posts = Post.getPost(feedKey);
+		Post.getPost(feedKey)
+			.then(function(data) { 
+				vm.selected = feedKey; 
+				vm.posts = data; 
+			});
 	}
 
 	function togglePopUp(ev) {
@@ -83,13 +88,7 @@ function mainCtrl($log, $mdSidenav, Auth, Account, Feed, Post, XMLParser) {
 	}
 
 	function toggleRight() {
-		$mdSidenav('right').toggle();
-	}
-
-	function closePopUp(ev) {
-		if (ev.keyCode === 27) {
-			vm.togglePopUp();
-		}
+		return $mdSidenav('right').toggle();
 	}
 }
 

@@ -6,19 +6,15 @@
   padding: 0.2em 0;
 }
 
-button:focus, a:focus {
-	border: none;
-	outline: none;
+button:focus, button:active,  a:focus, a:active, .btn:focus, .btn:active {
+	outline: none !important;
 }
 
 body {
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  line-height: 1.46;
   padding: 0;
   margin: 0;
-}
-
-body section.main {
-	height: 100%;
 }
 
 /* welcome page styling */
@@ -60,6 +56,17 @@ button.menu-toggle:hover {
 }
 
 /* Main page styling */
+
+section.content {
+	margin-bottom: 2em;
+}
+
+footer.footer {
+	position: absolute;
+	bottom: 0;
+	left: 1em;
+}
+
 article.no-content {
 	text-align: center; 
 }
@@ -79,6 +86,38 @@ article.no-content .md-button {
 	padding-left: 2em;
 	padding-right: 2em;
 }
+
+section.content > section > header:first-child h2 {
+	font-weight: bold;
+}
+
+section.content > section article {
+	margin-top: 2em;
+}
+
+section.content section article > section {
+	padding-left: 1em;
+}
+
+section.content section article > section header hgroup h2 {
+	margin-top: 0;
+}
+
+section.content section article > section header hgroup h5 {
+	margin-bottom: 0;
+}
+
+section.content section article > section > footer {
+	padding: 1em 0 0;
+}
+
+section.content section article > aside img{
+	width: auto;
+	height: auto;
+	max-width: 100%;
+	padding: 3px;
+	border: 1px solid #aaa; 
+} 
 
 section.pop-up {
 	position: fixed;
@@ -125,6 +164,10 @@ md-sidenav section {
 
 /* medium screens: 960px */
 @media screen and (max-width: 960px) {
+	section.content {
+		padding-left: 1em;
+	}
+
 	article.no-content h1 {
 		font-size: 2.5em;
 	}

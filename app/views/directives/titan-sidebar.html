@@ -5,7 +5,7 @@
 	<section ng-show="vm.subscriptions">
 		<h3><strong>Your feeds</strong></h3>
 		<ul class="list-unstyled">
-			<li ng-repeat="feed in vm.subscriptions"><button class="btn btn-link" ng-click="vm.displayPosts(feed.$value)">{{feed.$value}}</button></li>
+			<li ng-repeat="feed in vm.subscriptions"><button class="btn btn-link" ng-click="vm.displayPosts(feed.$value)" ng-bind-html="feed.$value"></button></li>
 		</ul>
 	</section>
 </md-sidenav>

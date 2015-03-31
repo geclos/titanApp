@@ -1,22 +1,25 @@
-<section class="content">
-	<article ng-repeat="post in vm.posts">
+<section>
+	<section flex flex-gt-md="80" >
 		<header>
-			<hgroup>
-				<h1>{{post.title}}</h1>
-				<h3>{{post.author}}</h3>
-			</hgroup>
-			<small>{{post.publishedDate}}</small>
+			<h2 ng-bind-html="vm.selected"></h2>
 		</header>
-		<section ng-bind-html="post.content"></section>
-		<footer>
-			<div class="pull-right">
-				<button type="button" class="btn btn-link">
-					Collapse
-				</button>
-			</div>
-			<div class="pull-left">
-				<a href="post.link" class="btn btn-link">Continue reading...</a>
-			</div>
-		</footer>
-	</article>
+		<article layout="row" ng-repeat="post in vm.posts">
+			<aside flex="30" ng-show="post.mainImg">
+				<img ng-src="{{post.mainImg}}" alt="mainImg" style="">
+			</aside>
+			<section flex="70">
+				<header>
+					<hgroup>
+						<h2>{{post.title}}</h2>
+						<h5><strong>{{post.author}}</strong></h5>
+						<small class="text-muted">{{post.publishedDate}}</small>
+					</hgroup>
+				</header>
+				<section ng-bind-html="post.contentSnippet"></section>
+				<footer>
+					<a ng-href="{{post.link}}">Continue reading...</a>
+				</footer>
+			</section>
+		</article>
+	</section>
 </section>
