@@ -26,17 +26,18 @@ function postService($q, $log, $firebaseObj, $firebaseArr, FIREBASE_URL) {
 	var service = {
 		startService : startService,
 		getPost : getPost,
-		setPost : setPost,
+		setPosts : setPosts,
 		removePost : removePost
 	};
 
 	return service;
 
-	function startService(data) {
-		accountKey = data;
-		ref = new Firebase(FIREBASE_URL + 
-		'/posts/' + accountKey); // jshint ignore:line
+	function cleanHTML(content) {
+		content = content.replace(/<br>|\/n|<img.+?>|<p><\/p>/gi, '');
+		return content.slice(content.indexOf('<'), 
+			content.lastIndexOf('>') + 1);  
 	}
+	
 
 	function getPost(feedKey, postKey) {
 		try {
@@ -55,37 +56,9 @@ function postService($q, $log, $firebaseObj, $firebaseArr, FIREBASE_URL) {
 			return $firebaseObj(postRef).$loaded();
 		} else {
 			var postsRef = ref.child('/' + feedKey);
-			return $firebaseArr(postsRef).$loaded();
+			return $firebaseArr(postsRef).$loaded()
+				.then(function(feedsArr) { return feedsArr.slice(0, feedsArr.length - 1); });
 		}
-	}
-
-	function setPost(feedKey, entriesArr) {
-		try {
-			if (arguments.length !== 2 ||
-				entriesArr.constructor !== Object &&
-				entriesArr.constructor !== Array) {
-				throw new Error('Arguments do not match specification');
-			}
-		} catch(e) {
-			$log.error(e);
-		}
-
-		var post;
-		var postsArr = [];
-		var deferred = $q.defer();
-		var childRef = ref.child(feedKey);
-		entriesArr.forEach(function(entry, i) {
-		 	post = new Post(entry);
-			childRef.push(post, function(e) { 
-		 		if (e) {
-		 			deferred.reject(e);
-		 		} else if (!e && i === entriesArr.length - 1) {
-		 			deferred.resolve();
-		 		}
-		 	});
-		});
-
-		return deferred.promise;
 	}
 
 	function removePost(postKey) {
@@ -99,6 +72,64 @@ function postService($q, $log, $firebaseObj, $firebaseArr, FIREBASE_URL) {
 
 		var postRef = ref.child('/' + postKey);
 		return $firebaseObj(postRef).$remove();
+	}
+
+	function setPosts(feedKey, entriesArr) {
+		try {
+			if (arguments.length !== 2 ||
+				entriesArr.constructor !== Object &&
+				entriesArr.constructor !== Array) {
+				throw new Error('Arguments do not match specification');
+			}
+		} catch(e) {
+			$log.error(e);
+		}
+
+		console.log(entriesArr);
+		var post;
+		var deferred = $q.defer();
+		var lastDatePublishedRef = ref.child(feedKey + '/lastDatePublished');
+		var lastDatePublished = $firebaseObj(lastDatePublishedRef).$value;
+		var childRef = ref.child(feedKey);
+		if (lastDatePublished) {
+			entriesArr.forEach(function(entry, i) {
+			 	post = new Post(entry);
+			 	if (post.publishedDate > lastDatePublished) {
+					childRef.push(post, function(e) { 
+				 		if (e) {
+				 			deferred.reject(e);
+				 		} else if (!e && i === entriesArr.length - 1) {
+				 			deferred.resolve();
+				 		}
+				 	});
+			 	}
+			});
+		} else {
+			entriesArr.forEach(function(entry, i) {
+			 	post = new Post(entry);
+				childRef.push(post, function(e) { 
+			 		if (e) {
+			 			deferred.reject(e);
+			 		} else if (!e && i === entriesArr.length - 1) {
+			 			deferred.resolve();
+			 		}
+			 	});
+			});
+		}
+		var setNewLastDate = childRef.child('lastDatePublished')
+			.set(Date.parse(entriesArr[0].publishedDate), function(e) {
+				if (e) {
+					$log.error(e);
+				}
+			});
+		
+		return deferred.promise;
+	}
+
+	function startService(data) {
+		accountKey = data;
+		ref = new Firebase(FIREBASE_URL + // jshint ignore:line 
+		'/posts/' + accountKey); 
 	}
 
 	function stripImg(content) {
@@ -119,12 +150,6 @@ function postService($q, $log, $firebaseObj, $firebaseArr, FIREBASE_URL) {
 		} else {
 			return null;
 		}
-	}
-
-	function cleanHTML(content) {
-		content = content.replace(/<br>|\/n|<img.+?>|<p><\/p>/gi, '');
-		return content.slice(content.indexOf('<'), 
-			content.lastIndexOf('>') + 1);  
 	}
 }
 

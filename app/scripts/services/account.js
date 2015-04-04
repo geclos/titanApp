@@ -22,7 +22,6 @@ function accountService ($q, $log, $firebaseObj, $firebaseArr, FIREBASE_URL) {
 		getSubscriptions : getSubscriptions,
 		removeAccount : removeAccount,
 		setAccount : setAccount,
-		setFeed : setFeed,
 		setSubscription : setSubscription,
 		startService : startService
 	};

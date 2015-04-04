@@ -1,23 +1,24 @@
 <section>
 	<section flex flex-gt-md="80" >
-		<header>
+		<header layout="row">
 			<h2 ng-bind-html="vm.selected"></h2>
+			<button class='btn btn-link refresh-feed' ng-click="vm.requestFeedUpdate(vm.selected)"><span class="glyphicon glyphicon-repeat"></span></button>
 		</header>
 		<article layout="row" ng-repeat="post in vm.posts">
-			<aside flex="30" ng-show="post.mainImg">
-				<img ng-src="{{post.mainImg}}" alt="mainImg" style="">
+			<aside flex="30">
+				<img ng-src="{{post.mainImg}}" alt="mainImg" style="" ng-show="post.mainImg">
 			</aside>
 			<section flex="70">
 				<header>
 					<hgroup>
-						<h2>{{post.title}}</h2>
-						<h5><strong>{{post.author}}</strong></h5>
-						<small class="text-muted">{{post.publishedDate}}</small>
+						<h2 ng-bind-html="post.title"></h2>
+						<h5><strong ng-bind-html="post.author"></strong></h5>
+						<small class="text-muted" ng-bind-html="post.publishedDate"></small>
 					</hgroup>
 				</header>
 				<section ng-bind-html="post.contentSnippet"></section>
 				<footer>
-					<a ng-href="{{post.link}}">Continue reading...</a>
+					<a ng-href="{{post.link}}">Read more</a>
 				</footer>
 			</section>
 		</article>

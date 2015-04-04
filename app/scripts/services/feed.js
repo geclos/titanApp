@@ -49,8 +49,8 @@ function feedService($q, $sce, $log, $firebaseObj,
 
 	function startService(data) {
 		accountKey = data;
-		ref = new Firebase(FIREBASE_URL + 
-		'/feeds/' + accountKey); // jshint ignore:line
+		ref = new Firebase(FIREBASE_URL + // jshint ignore:line 
+		'/feeds/' + accountKey); 
 	}
 
 	function getFeed(feedKey, feedProp) {
@@ -87,7 +87,7 @@ function feedService($q, $sce, $log, $firebaseObj,
 		}
 
 		var childRef = ref.child(feedKey + '/lastUpdate');
-		return $firebaseObj(childRef).$value;
+		return $firebaseObj(childRef).$loaded();
 	}
 
 	function setFeed(feedObj) {
@@ -124,15 +124,22 @@ function feedService($q, $sce, $log, $firebaseObj,
 			$log.error(e);
 		}
 
-		childRef = ref.child(feedKey + '/' + feedProp.name);
-		return childRef.set(feedProp.value, function(e) {
-			if (e) {
-				$log.error(e);
-			} else {
-				return true;
+		feedProp = JSON.parse(feedProp);
+		var deferred = $q.defer();
+		var childRef;
+		for(var key in feedProp) {
+			if (ref.child(feedKey + '/' + key)) {
+				childRef = ref.child(feedKey + '/' + key);
+				childRef.set(feedProp[key], function(e) {
+					if (e) {
+						deferred.reject(e);
+					}
+				});
 			}
-		});
-	}
+		}
+		deferred.resolve();
 
+		return deferred.promise;
+	}
 }
 })();

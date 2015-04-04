@@ -27,17 +27,18 @@ function mainCtrl($log, $mdSidenav, Auth, Account, Feed, Post, XMLParser) {
 	var feedKey, feedCat, googleFeedObj;
 
 	vm.addFeed = addFeed;
-	vm.displayPosts = displayPosts;
+	vm.requestFeedUpdate = requestFeedUpdate;
 	vm.subscriptions = getSubscriptions();
 	vm.togglePopUp = togglePopUp;
 	vm.toggleRight = toggleRight;
+	vm.toggleSelectedFeed = toggleSelectedFeed;
 
 	function addFeed(feedUrl, category) {
 		vm.addingFeed = true;
 		feedCat = category ? category : null; //TODO...
 		XMLParser.retrieveFeed(feedUrl)
 			.then(setFeed)
-			.then(setPost)
+			.then(setPosts)
 			.then(setSubscription)
 			.then(addFeedSuccess)
 			.catch(function(e) { $log.error(e); });
@@ -48,9 +49,9 @@ function mainCtrl($log, $mdSidenav, Auth, Account, Feed, Post, XMLParser) {
 		return Feed.setFeed(googleFeedObj);
 	}
 
-	function setPost(key) {
+	function setPosts(key) {
 		feedKey = key;
-		return Post.setPost(feedKey, googleFeedObj.entries);
+		return Post.setPosts(feedKey, googleFeedObj.entries);
 	}
 
 	function setSubscription() {
@@ -71,7 +72,7 @@ function mainCtrl($log, $mdSidenav, Auth, Account, Feed, Post, XMLParser) {
 		return Account.getSubscriptions();
 	}
 
-	function displayPosts(feedKey) {
+	function toggleSelectedFeed(feedKey) {
 		return Post.getPost(feedKey)
 			.then(function(data) { 
 				vm.selected = feedKey; 
@@ -95,22 +96,30 @@ function mainCtrl($log, $mdSidenav, Auth, Account, Feed, Post, XMLParser) {
 
 	function requestFeedUpdate(feedTitle) {
 		feedKey	= feedTitle;
-		var lastUpdate = Feed.lastUpdated(feedKey);
-		var timeElapsed = Date.now() - lastUpdate; 
-		if (timeElapsed.getUTCHours() > 1) {
-			updateFeed();
-		}
+		return Feed.lastUpdated(feedKey)
+			.then(function(data) {
+				var lastUpdate = data.$value;
+				var timeElapsed = Date.now() - lastUpdate;
+				timeElapsed = new Date(timeElapsed); 
+				if (timeElapsed.getUTCMinutes() > 60) {
+					updateFeed()
+						.then(feedUpdateSuccess)
+						.catch(function(e) {$log.error(e);});
+				} else {
+					$log.info('Feed is up to date. Last update: ' + new Date(lastUpdate));
+				}
+			});
 	}
 
 	function updateFeed() {
-		Feed.updateFeed(feedKey, {name: 'lastUpdate', value: Date.now()});
-			.then(updatePost)
-			.then(updateFeedSuccess)
-			.catch(function(e) {$log.error(e);});
+		return XMLParser.retrieveFeed(feedKey)
+			.then(function(feedObj) { return Post.setPosts(feedKey, feedObj.entries); })
+			.then(function() { return Feed.updateFeed(feedKey, {'lastUpdate': Date.now()}); });
 	}
 
-	function updatePost() {
-		// TODO...
+	function feedUpdateSuccess() {
+		$log.info(feedKey + ' was succesfully updated.');
+		return true;
 	}
 }
 
