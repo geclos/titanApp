@@ -1,5 +1,4 @@
 #Titan
 
-RSS Feed reader built with AngularJS, Bootstrap and Angular Material. The backend is built with AngularFire and Firebase.
-
-This project is only for demonstration purposes.
+This app is for demonstration purposes. It makes use of HTML5 WebStorage API to ensure a personalized experience as long as the user keeps using the same browser.
+This app is built with AngularJS, Bootstrap, Angular Material, AngularFire, Firebase, Grunt, Karma, Jasmine and PhantomJS.
