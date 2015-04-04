@@ -18,23 +18,26 @@ body {
 }
 
 /* welcome page styling */
-main#welcome {
+
+section#welcome {
   background-image: url('../images/background_image.jpg');
+  background-color: transparent;
   color: white;
 }
 
-main#welcome section article small {
+section#welcome section article small {
 	color: #fefefe;
+	font-family: Consolas, monospace;
 }
 
-main#welcome section button.md-button {
+section#welcome section button.md-button {
 	display: block;
 	font-size: 2em;
 	margin: 1em auto 0;
 	padding: .5em 1.5em; 
 } 
 
-main#welcome section article:first-child header h1 {
+section#welcome section article:first-child header h1 {
 	font-family: 'Impact', Helvetica, Arial, sans-serif;
 	font-size: 5em;
 	letter-spacing: 0.1em;
@@ -44,7 +47,12 @@ main#welcome section article:first-child header h1 {
 	text-transform: uppercase;
 }
 
-/* Main header styling */
+/* section#welcome footer {
+	margin-top: 5em;
+	text-align: center;
+}
+ */
+/* Main header styling 
 button.menu-toggle {
 	color: white; 
 	font-weight: bold; 

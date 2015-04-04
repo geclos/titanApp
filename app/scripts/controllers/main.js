@@ -34,12 +34,12 @@ function mainCtrl($log, $mdSidenav, Auth, Account, Feed, Post, XMLParser) {
 
 	function addFeed(feedUrl, category) {
 		vm.addingFeed = true;
-		feedCat = category ? category : null;
+		feedCat = category ? category : null; //TODO...
 		XMLParser.retrieveFeed(feedUrl)
 			.then(setFeed)
 			.then(setPost)
-			.then(updateAccount)
-			.then(addFeedSuccess(feedKey))
+			.then(setSubscription)
+			.then(addFeedSuccess)
 			.catch(function(e) { $log.error(e); });
 	}
 
@@ -53,17 +53,18 @@ function mainCtrl($log, $mdSidenav, Auth, Account, Feed, Post, XMLParser) {
 		return Post.setPost(feedKey, googleFeedObj.entries);
 	}
 
-	function updateAccount() {
-		return Account.setFeed(feedKey);
+	function setSubscription() {
+		return Account.setSubscription(feedKey);
 	}
 
-	function addFeedSuccess(feedKey) {
+	function addFeedSuccess() {
 		$log.info(feedKey + ' was succesfully added.');
 		vm.togglePopUp();
 		delete vm.feedUrl;
 		delete vm.addingFeed;
 		vm.form.$setPristine();
 		vm.form.$setUntouched();
+		return true;
 	}
 
 	function getSubscriptions() {
@@ -71,10 +72,11 @@ function mainCtrl($log, $mdSidenav, Auth, Account, Feed, Post, XMLParser) {
 	}
 
 	function displayPosts(feedKey) {
-		Post.getPost(feedKey)
+		return Post.getPost(feedKey)
 			.then(function(data) { 
 				vm.selected = feedKey; 
-				vm.posts = data; 
+				vm.posts = data;
+				return true; 
 			});
 	}
 
@@ -89,6 +91,26 @@ function mainCtrl($log, $mdSidenav, Auth, Account, Feed, Post, XMLParser) {
 
 	function toggleRight() {
 		return $mdSidenav('right').toggle();
+	}
+
+	function requestFeedUpdate(feedTitle) {
+		feedKey	= feedTitle;
+		var lastUpdate = Feed.lastUpdated(feedKey);
+		var timeElapsed = Date.now() - lastUpdate; 
+		if (timeElapsed.getUTCHours() > 1) {
+			updateFeed();
+		}
+	}
+
+	function updateFeed() {
+		Feed.updateFeed(feedKey, {name: 'lastUpdate', value: Date.now()});
+			.then(updatePost)
+			.then(updateFeedSuccess)
+			.catch(function(e) {$log.error(e);});
+	}
+
+	function updatePost() {
+		// TODO...
 	}
 }
 

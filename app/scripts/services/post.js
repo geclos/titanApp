@@ -9,7 +9,8 @@
 angular.module('titanApp')
 	.service('Post', postService);
 
-postService.$inject = ['$q', '$log', '$firebaseObject', '$firebaseArray', 'FIREBASE_URL'];
+postService.$inject = ['$q', '$log', '$firebaseObject', 
+'$firebaseArray', 'FIREBASE_URL'];
 
 function postService($q, $log, $firebaseObj, $firebaseArr, FIREBASE_URL) {
 	var ref, accountKey;
@@ -26,7 +27,6 @@ function postService($q, $log, $firebaseObj, $firebaseArr, FIREBASE_URL) {
 		startService : startService,
 		getPost : getPost,
 		setPost : setPost,
-		updatePost : updatePost,
 		removePost : removePost
 	};
 
@@ -34,12 +34,15 @@ function postService($q, $log, $firebaseObj, $firebaseArr, FIREBASE_URL) {
 
 	function startService(data) {
 		accountKey = data;
-		ref = new Firebase(FIREBASE_URL + '/posts/' + accountKey); // jshint ignore:line
+		ref = new Firebase(FIREBASE_URL + 
+		'/posts/' + accountKey); // jshint ignore:line
 	}
 
 	function getPost(feedKey, postKey) {
 		try {
-			if (arguments.length > 2 || arguments.length === 1 && typeof feedKey !== 'string') {
+			if (arguments.length > 2 || 
+				arguments.length === 1 && 
+				typeof feedKey !== 'string') {
 				throw new Error('Arguments do not match specification');
 			}
 		} catch(e) {
@@ -85,27 +88,6 @@ function postService($q, $log, $firebaseObj, $firebaseArr, FIREBASE_URL) {
 		return deferred.promise;
 	}
 
-	function pushPosts(db, postsArr) {
-		db.$value = postsArr;
-		return db.$save(); // returns ref to object set
-	}
-
-	function updatePost(postKey, obj) {
-		try {
-			if (arguments.length !== 2 || typeof postKey !== 'string' ||
-				typeof obj !== 'object') {
-				throw new Error('Arguments do not match specification');
-			}
-		} catch(e) {
-			$log.error(e);
-		}
-
-		var postRef = ref.child('/' + postKey);
-		var post = $firebaseObj(postRef);
-		post = obj;
-		return post.$save();
-	}
-
 	function removePost(postKey) {
 		try {
 			if (arguments.length !== 1 || typeof postKey !== 'string') {
@@ -128,7 +110,8 @@ function postService($q, $log, $firebaseObj, $firebaseArr, FIREBASE_URL) {
 			mainImg = el.getElementsByTagName('img');
 			el.remove();
 			var imgSrc = mainImg[0].getAttribute('src');
-			if (imgSrc.indexOf('.gif') > -1 || imgSrc.indexOf('.img')  > -1) {
+			if (imgSrc.indexOf('.gif') > -1 || 
+				imgSrc.indexOf('.img')  > -1) {
 				return null;
 			} else {
 				return imgSrc;
@@ -140,7 +123,8 @@ function postService($q, $log, $firebaseObj, $firebaseArr, FIREBASE_URL) {
 
 	function cleanHTML(content) {
 		content = content.replace(/<br>|\/n|<img.+?>|<p><\/p>/gi, '');
-		return content.slice(content.indexOf('<'), content.lastIndexOf('>') + 1);  
+		return content.slice(content.indexOf('<'), 
+			content.lastIndexOf('>') + 1);  
 	}
 }
 

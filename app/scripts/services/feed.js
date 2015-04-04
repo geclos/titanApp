@@ -9,9 +9,11 @@
 angular.module('titanApp')
 	.service('Feed', feedService);
 
-feedService.$inject = ['$q', '$sce', '$log', '$firebaseObject', '$firebaseArray', 'FIREBASE_URL'];
+feedService.$inject = ['$q', '$sce', '$log', '$firebaseObject', 
+'$firebaseArray', 'FIREBASE_URL'];
 
-function feedService($q, $sce, $log, $firebaseObj, $firebaseArr, FIREBASE_URL) {
+function feedService($q, $sce, $log, $firebaseObj, 
+	$firebaseArr, FIREBASE_URL) {
 	var	ref, accountKey; 
 	var Feed = function (feedObj) {
 		this.title = feedObj.title;
@@ -21,23 +23,41 @@ function feedService($q, $sce, $log, $firebaseObj, $firebaseArr, FIREBASE_URL) {
 		this.category = 'uncategorized';
 	};
 	var service = {
-		startService : startService,
 		getFeed : getFeed,
+		lastUpdated : lastUpdated,
+		removeFeed : removeFeed,
 		setFeed : setFeed,
-		updateFeed : updateFeed,
-		removeFeed : removeFeed
+		startService : startService,
+		updateFeed : updateFeed
 	};
 
 	return service;
 
-	function startService(data) {
-		accountKey = data;
-		ref = new Firebase(FIREBASE_URL + '/feeds/' + accountKey); // jshint ignore:line
+	function removeFeed(feedKey) {
+		try {
+			if (arguments.length !== 1 || 
+				typeof feedKey !== 'string') {
+				throw new Error('Arguments do not match specification');
+			}
+		} catch(e) {
+			$log.error(e);
+		}
+
+		var feedRef = ref.child(feedKey);
+		return $firebaseObj(feedRef).$remove();
 	}
 
-	function getFeed(feedKey) {
+	function startService(data) {
+		accountKey = data;
+		ref = new Firebase(FIREBASE_URL + 
+		'/feeds/' + accountKey); // jshint ignore:line
+	}
+
+	function getFeed(feedKey, feedProp) {
 		try {
-			if (arguments.length > 1 || arguments.length === 1 && typeof feedKey !== 'string') {
+			if (arguments.length > 2 || 
+				typeof feedKey !== 'string' ||
+				typeof feedProp !== 'string') {
 				throw new Error('Arguments do not match specification');
 			}
 		} catch(e) {
@@ -46,11 +66,28 @@ function feedService($q, $sce, $log, $firebaseObj, $firebaseArr, FIREBASE_URL) {
 		}
 
 		if (feedKey) {
-			var feedRef = ref.child(accountKey + '/' + feedKey);
-			return $firebaseObj(feedRef).$loaded();
+			var feedRef = ref.child(feedKey);
+			if (feedProp) {
+				var propRef = feedRef.child(feedProp);
+				return $firebaseObj(propRef).$value;
+			}
+			return $firebaseObj(feedRef);
 		} else {
-			return $firebaseArr(ref).$loaded();
+			return $firebaseArr(ref);
 		}
+	}
+
+	function lastUpdated(feedKey) {
+		try {
+			if (arguments.length !== 1 || typeof feedKey !== 'string') {
+				throw new Error('Arguments do not match specification');
+			}
+		} catch(e) {
+			$log.error(e);
+		}
+
+		var childRef = ref.child(feedKey + '/lastUpdate');
+		return $firebaseObj(childRef).$value;
 	}
 
 	function setFeed(feedObj) {
@@ -76,44 +113,26 @@ function feedService($q, $sce, $log, $firebaseObj, $firebaseArr, FIREBASE_URL) {
 		return deferred.promise;
 	}
 
-	function updateFeed(feedKey, obj) {
-		try {
-			if (arguments.length !== 2 || typeof feedKey !== 'string' ||
-				typeof obj !== 'object') {
+	function updateFeed(feedKey, feedProp) {
+		try	{
+			if (arguments.length !== 2 || 
+				typeof feedKey !== 'string' ||
+				typeof feedProp !== 'object') {
 				throw new Error('Arguments do not match specification');
 			}
 		} catch(e) {
 			$log.error(e);
 		}
 
-		if (obj.hasOwnProperty('title')) {
-			var deferred = $q.defer();
-			var childRef = ref.child(accountKey + '/' + feedKey + '/title');
-			childRef.set(obj.title, function(e) { 
-				if (e) {
-					deferred.reject(e);
-				} else {
-					deferred.resolve();
-				}
-			});
-
-			return deferred.promise;
-		} else {
-			return false;
-		}
-	}
-
-	function removeFeed(feedKey) {
-		try {
-			if (arguments.length !== 1 || typeof feedKey !== 'string') {
-				throw new Error('Arguments do not match specification');
+		childRef = ref.child(feedKey + '/' + feedProp.name);
+		return childRef.set(feedProp.value, function(e) {
+			if (e) {
+				$log.error(e);
+			} else {
+				return true;
 			}
-		} catch(e) {
-			$log.error(e);
-		}
-
-		var feedRef = ref.child(accountKey + '/' + feedKey);
-		return $firebaseObj(feedRef).$remove();
+		});
 	}
+
 }
 })();

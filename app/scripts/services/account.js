@@ -18,12 +18,13 @@ function accountService ($q, $log, $firebaseObj, $firebaseArr, FIREBASE_URL) {
 		this.subscriptions = 0;
 	};
 	var service = {
-		startService : startService,
 		getAccount : getAccount,
 		getSubscriptions : getSubscriptions,
-		setFeed : setFeed,
+		removeAccount : removeAccount,
 		setAccount : setAccount,
-		removeAccount : removeAccount
+		setFeed : setFeed,
+		setSubscription : setSubscription,
+		startService : startService
 	};
 
 	return service;
@@ -73,7 +74,7 @@ function accountService ($q, $log, $firebaseObj, $firebaseArr, FIREBASE_URL) {
 		return deferred.promise;
 	}
 
-	function setFeed(feedKey) {
+	function setSubscription(feedKey) {
 		try {
 			if (arguments.length !== 1 ||
 				typeof feedKey !== 'string') {
