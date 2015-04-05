@@ -1,8 +1,9 @@
 <section>
 	<section flex flex-gt-md="80" >
-		<header layout="row">
-			<h2 ng-bind-html="vm.selected"></h2>
-			<button class='btn btn-link refresh-feed' ng-click="vm.requestFeedUpdate(vm.selected)"><span class="glyphicon glyphicon-repeat"></span></button>
+		<header layout="row" layout-align="left center">
+			<h2 ng-bind-html="vm.feed.title"></h2>
+			<button class='btn btn-link refresh-feed' ng-click="vm.requestFeedUpdate(vm.feed.title)"><span class="glyphicon glyphicon-repeat"></span></button>
+			<small class="text-muted" style="margin-top:2em;">Last Updated: <span ng-bind-html="vm.feed.lastUpdate | date : 'medium'"></span></small>
 		</header>
 		<article layout="row" ng-repeat="post in vm.posts">
 			<aside flex="30">
@@ -13,7 +14,7 @@
 					<hgroup>
 						<h2 ng-bind-html="post.title"></h2>
 						<h5><strong ng-bind-html="post.author"></strong></h5>
-						<small class="text-muted" ng-bind-html="post.publishedDate"></small>
+						<small class="text-muted" ng-bind-html="post.publishedDate | date : 'medium'"></small>
 					</hgroup>
 				</header>
 				<section ng-bind-html="post.contentSnippet"></section>

@@ -32,7 +32,7 @@ function routeProvider($routeProvider) {
 	  templateUrl: 'views/main.html',
 	  controllerAs: 'vm',
 	  controller: 'mainCtrl',
-	  resolve: {
+	  resolve: {/* @ngInject */
 		auth : requireAuth
 	  }
 	})

@@ -14,14 +14,14 @@ angular.module('titanApp')
 mainCtrl.$inject = [
 	'$log',
 	'$mdSidenav',
-	'Auth',
 	'Account',
 	'Feed',
 	'Post',
 	'XMLParser'
   ];
 
-function mainCtrl($log, $mdSidenav, Auth, Account, Feed, Post, XMLParser) {
+/* @ngInject */
+function mainCtrl($log, $mdSidenav, Account, Feed, Post, XMLParser) {
 	/* jshint validthis: true */
 	var vm = this;
 	var feedKey, feedCat, googleFeedObj;
@@ -36,12 +36,43 @@ function mainCtrl($log, $mdSidenav, Auth, Account, Feed, Post, XMLParser) {
 	function addFeed(feedUrl, category) {
 		vm.addingFeed = true;
 		feedCat = category ? category : null; //TODO...
-		XMLParser.retrieveFeed(feedUrl)
+		return XMLParser.retrieveFeed(feedUrl)
 			.then(setFeed)
 			.then(setPosts)
 			.then(setSubscription)
-			.then(addFeedSuccess)
-			.catch(function(e) { $log.error(e); });
+			.then(addFeedSuccess);
+	}
+
+	function addFeedSuccess() {
+		$log.info(feedKey + ' was succesfully added.');
+		vm.togglePopUp();
+		delete vm.feedUrl;
+		delete vm.addingFeed;
+		vm.form.$setPristine();
+		vm.form.$setUntouched();
+		return true;
+	}
+
+	function feedUpdateSuccess() {
+		$log.info(feedKey + ' was succesfully updated.');
+		return true;
+	}
+
+	function getSubscriptions() {
+		return Account.getSubscriptions();
+	}
+
+	function requestFeedUpdate(feedTitle) {
+		var lastUpdate = vm.feed.lastUpdate;
+		var timeElapsed = Date.now() - lastUpdate;
+		timeElapsed = Math.round(timeElapsed / 1000 / 60);
+		if (timeElapsed > 60) {
+			updateFeed()
+				.then(feedUpdateSuccess);
+		} else {
+			$log.info('Feed is up to date. Last update: ' + 
+				new Date(lastUpdate));
+		}
 	}
 
 	function setFeed(obj) {
@@ -58,68 +89,45 @@ function mainCtrl($log, $mdSidenav, Auth, Account, Feed, Post, XMLParser) {
 		return Account.setSubscription(feedKey);
 	}
 
-	function addFeedSuccess() {
-		$log.info(feedKey + ' was succesfully added.');
-		vm.togglePopUp();
-		delete vm.feedUrl;
-		delete vm.addingFeed;
-		vm.form.$setPristine();
-		vm.form.$setUntouched();
-		return true;
-	}
-
-	function getSubscriptions() {
-		return Account.getSubscriptions();
-	}
-
-	function toggleSelectedFeed(feedKey) {
-		return Post.getPost(feedKey)
-			.then(function(data) { 
-				vm.selected = feedKey; 
-				vm.posts = data;
-				return true; 
-			});
-	}
-
 	function togglePopUp(ev) {
 		if (!ev || ev && ev.keyCode === 27) {
 			vm.popUp = vm.popUp ? false : true;
 			vm.form.$setPristine();
 			vm.form.$setUntouched();
 			vm.form.feedUrl.$setViewValue('');
+			return true;
 		}
+		return false;
+	}
+
+	function toggleSelectedFeed(key) {
+		feedKey = key;
+		vm.selected = key;
+		vm.loadingFeed = true;
+		vm.posts = true;
+		return Feed.getFeed(feedKey)
+			.then(displayPosts);
+	}
+
+	function displayPosts(feed) { 
+		return Post.getPost(feedKey)
+			.then(function(posts) {
+				vm.feed = feed;
+				vm.posts = posts;
+				delete vm.loadingFeed;
+				return true; 
+			});
 	}
 
 	function toggleRight() {
 		return $mdSidenav('right').toggle();
 	}
 
-	function requestFeedUpdate(feedTitle) {
-		feedKey	= feedTitle;
-		return Feed.lastUpdated(feedKey)
-			.then(function(data) {
-				var lastUpdate = data.$value;
-				var timeElapsed = Date.now() - lastUpdate;
-				timeElapsed = new Date(timeElapsed); 
-				if (timeElapsed.getUTCMinutes() > 60) {
-					updateFeed()
-						.then(feedUpdateSuccess)
-						.catch(function(e) {$log.error(e);});
-				} else {
-					$log.info('Feed is up to date. Last update: ' + new Date(lastUpdate));
-				}
-			});
-	}
-
 	function updateFeed() {
-		return XMLParser.retrieveFeed(feedKey)
-			.then(function(feedObj) { return Post.setPosts(feedKey, feedObj.entries); })
-			.then(function() { return Feed.updateFeed(feedKey, {'lastUpdate': Date.now()}); });
-	}
-
-	function feedUpdateSuccess() {
-		$log.info(feedKey + ' was succesfully updated.');
-		return true;
+		return XMLParser.retrieveFeed(vm.feed.link)
+			.then(function(feedObj) { return Post.setPosts(vm.feed.title, feedObj.entries); })
+			.then(function() { return Feed.updateFeed(vm.feed.title, {lastUpdate : Date.now()}); })
+			.catch(function(e) {$log.error(e);});
 	}
 }
 

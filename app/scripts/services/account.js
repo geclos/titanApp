@@ -11,6 +11,7 @@ angular.module('titanApp')
 
 accountService.$inject = ['$q', '$log', '$firebaseObject', '$firebaseArray', 'FIREBASE_URL'];
 
+/* @ngInject */
 function accountService ($q, $log, $firebaseObj, $firebaseArr, FIREBASE_URL) {
 	var	ref, accountKey; // jshint ignore:line
 	var Account = function () {

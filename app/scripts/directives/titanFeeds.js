@@ -23,11 +23,9 @@ function titanFeedsDirective($log) {
 	
 	return directive;
 
-	function controller($scope, $element, $attrs, $transclude) {
+	function controller($scope) {
 		/* jshint validthis: true */
-		var vm = this;
-		
-		// TODO...
+		var feeds = this;
 	}
 }
 	

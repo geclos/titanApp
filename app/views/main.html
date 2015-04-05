@@ -19,7 +19,10 @@
 			</header>
 			<md-button class="md-button md-primary md-raised" ng-click="vm.togglePopUp()">Add feed</md-button>
 		</article>
-		<titan-feeds class="content" layout="row" layout-align="center" ng-show="vm.posts"></titan-feeds>	
+		<section layout="row" layout-align="center center" ng-show="vm.loadingFeed">
+			<md-progress-circular md-mode="indeterminate" ></md-progress-circular>
+		</section>
+		<titan-feeds class="content" layout="row" layout-align="center" ng-hide="!vm.posts || vm.loadingFeed"></titan-feeds>	
 		<footer class="footer">
 		    <small class="text-muted">
 		      <span class="glyphicon glyphicon-heart"></span> 4 evah.
@@ -28,6 +31,7 @@
 	</md-content>
 	<titan-sidebar></titan-sidebar>
 </section>
+
 <!-- Pop Up -->
 <section class="pop-up" ng-show="vm.popUp" ng-keyup="vm.togglePopUp($event)" layout="row" layout-fill layout-align="center center">
 	<md-card class=".md-whiteframe-z2">

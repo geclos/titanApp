@@ -12,6 +12,7 @@ angular.module('titanApp')
 postService.$inject = ['$q', '$log', '$firebaseObject', 
 '$firebaseArray', 'FIREBASE_URL'];
 
+/* @ngInject */
 function postService($q, $log, $firebaseObj, $firebaseArr, FIREBASE_URL) {
 	var ref, accountKey;
 	var Post = function (postObj) {
@@ -21,7 +22,7 @@ function postService($q, $log, $firebaseObj, $firebaseArr, FIREBASE_URL) {
 		this.mainImg = stripImg(postObj.content);
 		this.content = cleanHTML(postObj.content);
 		this.contentSnippet = postObj.contentSnippet;
-		this.publishedDate = postObj.publishedDate;
+		this.publishedDate = Date.parse(postObj.publishedDate);
 	};
 	var service = {
 		startService : startService,
@@ -39,7 +40,8 @@ function postService($q, $log, $firebaseObj, $firebaseArr, FIREBASE_URL) {
 	}
 	
 
-	function getPost(feedKey, postKey) {
+	function getPost(feedKey, postProp) {
+		// REVIEW...
 		try {
 			if (arguments.length > 2 || 
 				arguments.length === 1 && 
@@ -51,8 +53,8 @@ function postService($q, $log, $firebaseObj, $firebaseArr, FIREBASE_URL) {
 			$log.error(e);
 		}
 
-		if (postKey) {
-			var postRef = ref.child('/' + feedKey + '/' + postKey);
+		if (postProp) {
+			var postRef = ref.child('/' + feedKey + '/' + postProp);
 			return $firebaseObj(postRef).$loaded();
 		} else {
 			var postsRef = ref.child('/' + feedKey);
@@ -85,44 +87,75 @@ function postService($q, $log, $firebaseObj, $firebaseArr, FIREBASE_URL) {
 			$log.error(e);
 		}
 
-		console.log(entriesArr);
+		return getPost(feedKey, 'lastDatePublished')
+			.then(function(data) {return handlePostsCreation(data, feedKey, entriesArr);})
+			.catch(function(e) {$log.error(e);});		
+	}
+
+	function handlePostsCreation(data, feedKey, entriesArr) {
+		if (data.$value) {
+			return updatePosts(data.$value, feedKey, entriesArr);
+		} else {
+			return createPosts(feedKey, entriesArr);
+		}
+	}
+
+	function updatePosts(lastDatePublished, feedKey, entriesArr) {
 		var post;
+		var postsArr = [];
 		var deferred = $q.defer();
-		var lastDatePublishedRef = ref.child(feedKey + '/lastDatePublished');
-		var lastDatePublished = $firebaseObj(lastDatePublishedRef).$value;
 		var childRef = ref.child(feedKey);
-		if (lastDatePublished) {
-			entriesArr.forEach(function(entry, i) {
-			 	post = new Post(entry);
-			 	if (post.publishedDate > lastDatePublished) {
-					childRef.push(post, function(e) { 
-				 		if (e) {
-				 			deferred.reject(e);
-				 		} else if (!e && i === entriesArr.length - 1) {
-				 			deferred.resolve();
-				 		}
-				 	});
-			 	}
+		
+		for (var i = 0; i <= entriesArr.length - 1; i++) {
+		 	post = new Post(entriesArr[i]);
+		 	if (Date.parse(post.publishedDate) > lastDatePublished) {
+				postsArr.push(post);
+		 	} else {
+		 		break;
+		 	}
+		}
+		if (postsArr.length > 0) {
+			postsArr.forEach(function(post, i) {
+				childRef.push(post, function(e) { 
+					 		if (e) {
+					 			deferred.reject(e);
+					 		} else if (i === postsArr.length - 1) {
+					 			deferred.resolve();
+								var setNewLastDate = childRef.child('lastDatePublished')
+									.set(Date.parse(postsArr[0].publishedDate), 
+										function(e) {
+											if (e) {$log.error(e);}
+										});
+					 		}
+					 	});
 			});
 		} else {
-			entriesArr.forEach(function(entry, i) {
-			 	post = new Post(entry);
-				childRef.push(post, function(e) { 
-			 		if (e) {
-			 			deferred.reject(e);
-			 		} else if (!e && i === entriesArr.length - 1) {
-			 			deferred.resolve();
-			 		}
-			 	});
-			});
+			deferred.resolve();
 		}
-		var setNewLastDate = childRef.child('lastDatePublished')
-			.set(Date.parse(entriesArr[0].publishedDate), function(e) {
-				if (e) {
-					$log.error(e);
-				}
-			});
-		
+
+		return deferred.promise;
+	}
+
+	function createPosts(feedKey, entriesArr) {
+		var post;
+		var deferred = $q.defer();
+		var childRef = ref.child(feedKey);
+		entriesArr.forEach(function(entry, i) {
+		 	post = new Post(entry);
+			childRef.push(post, function(e) { 
+		 		if (e) {
+		 			deferred.reject(e);
+		 		} else if (i === entriesArr.length - 1) {
+		 			deferred.resolve();
+					var setNewLastDate = childRef.child('lastDatePublished')
+						.set(Date.parse(entriesArr[0].publishedDate), 
+							function(e) {
+								if (e) {$log.error(e);}
+							});
+		 		}
+		 	});
+		});
+
 		return deferred.promise;
 	}
 

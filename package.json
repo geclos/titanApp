@@ -10,7 +10,8 @@
     "bootstrap": "^3.3.4",
     "chai": "^2.1.1",
     "karma": "^0.12.31",
-    "karma-chrome-launcher": "^0.1.7"
+    "karma-chrome-launcher": "^0.1.7",
+    "node-google-api": "^0.3.0"
   },
   "repository": {},
   "devDependencies": {

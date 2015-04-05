@@ -12,6 +12,7 @@ angular.module('titanApp')
 authService.$inject = ['$rootScope','$firebaseAuth', '$log', '$q',
 	'FIREBASE_URL'];
 
+/* @ngInject */
 function authService ($rootScope, $firebaseAuth, $log, $q, FIREBASE_URL) {
 	// Firebase implementation
 	/*

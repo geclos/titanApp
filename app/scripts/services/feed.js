@@ -12,6 +12,7 @@ angular.module('titanApp')
 feedService.$inject = ['$q', '$sce', '$log', '$firebaseObject', 
 '$firebaseArray', 'FIREBASE_URL'];
 
+/* @ngInject */
 function feedService($q, $sce, $log, $firebaseObj, 
 	$firebaseArr, FIREBASE_URL) {
 	var	ref, accountKey; 
@@ -24,7 +25,6 @@ function feedService($q, $sce, $log, $firebaseObj,
 	};
 	var service = {
 		getFeed : getFeed,
-		lastUpdated : lastUpdated,
 		removeFeed : removeFeed,
 		setFeed : setFeed,
 		startService : startService,
@@ -55,13 +55,16 @@ function feedService($q, $sce, $log, $firebaseObj,
 
 	function getFeed(feedKey, feedProp) {
 		try {
-			if (arguments.length > 2 || 
-				typeof feedKey !== 'string' ||
-				typeof feedProp !== 'string') {
+			if (arguments.length > 2 ||
+				arguments.length < 1) {
 				throw new Error('Arguments do not match specification');
+			} else if (arguments.length === 2 && 
+				typeof feedKey !== 'string' ||
+				arguments.length === 2 &&
+				typeof feedProp !== 'string') {
+				throw new TypeError('Arguments\' type do not match specification');
 			}
 		} catch(e) {
-
 			$log.error(e);
 		}
 
@@ -71,23 +74,10 @@ function feedService($q, $sce, $log, $firebaseObj,
 				var propRef = feedRef.child(feedProp);
 				return $firebaseObj(propRef).$value;
 			}
-			return $firebaseObj(feedRef);
+			return $firebaseObj(feedRef).$loaded();
 		} else {
-			return $firebaseArr(ref);
+			return $firebaseArr(ref).$loaded();
 		}
-	}
-
-	function lastUpdated(feedKey) {
-		try {
-			if (arguments.length !== 1 || typeof feedKey !== 'string') {
-				throw new Error('Arguments do not match specification');
-			}
-		} catch(e) {
-			$log.error(e);
-		}
-
-		var childRef = ref.child(feedKey + '/lastUpdate');
-		return $firebaseObj(childRef).$loaded();
 	}
 
 	function setFeed(feedObj) {
@@ -124,7 +114,6 @@ function feedService($q, $sce, $log, $firebaseObj,
 			$log.error(e);
 		}
 
-		feedProp = JSON.parse(feedProp);
 		var deferred = $q.defer();
 		var childRef;
 		for(var key in feedProp) {
