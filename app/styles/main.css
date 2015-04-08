@@ -47,20 +47,12 @@ section#welcome section article:first-child header h1 {
 	text-transform: uppercase;
 }
 
-/* section#welcome footer {
-	margin-top: 5em;
-	text-align: center;
-}
- */
-/* Main header styling 
-button.menu-toggle {
-	color: white; 
-	font-weight: bold; 
-	font-size: inherit;
-}
-
-button.menu-toggle:hover {
-	text-decoration: none;
+section#welcome md-progress-circular {
+	margin: 0 auto; 
+	-webkit-transform: scale(0.7) !important;
+	-ms-transform: scale(0.7) !important;
+	-o-transform: scale(0.7) !important;
+	transform: scale(0.7) !important;
 }
 
 /* Main page styling */
@@ -119,36 +111,69 @@ section.content section article > section > footer {
 	padding: 1em 0 0;
 }
 
+section.content section article > aside {
+	padding: 3px;
+	border: 1px solid #aaa; 
+	max-height: 170px;
+	overflow: hidden;
+}
+
 section.content section article > aside img{
 	width: auto;
 	height: auto;
 	max-width: 100%;
-	padding: 3px;
-	border: 1px solid #aaa; 
 } 
 
-section.pop-up {
+
+section.pop-up.ng-hide {
+	opacity: 0;
+}
+
+section.pop-up.ng-hide-add.ng-hide-add-active,
+section.pop-up.ng-hide-remove.ng-hide-remove-active {
+  -webkit-transition: all linear 0.2s;
+  transition: all linear 0.2s;
+}
+
+section.pop-up, section.add-feed-form {
+	opacity: 1;
 	position: fixed;
 	top: 0;
 	left: 0;
 	z-index: 61;
-	background-color: rgba(0,0,0,0.3);
+	background: transparent;
 }
 
-section.pop-up md-card {
+section.pop-up article.pop-up-message {
+	font-weight: bold;
+    color: darkgreen;
+	padding: .5em;
+	margin-top: 5%;
+	max-width: 20%;
+	height: 10%;
+	background-color: LightGreen;
+	border-radius: 5px;
+	border: 1px solid DarkGreen;
+}
+
+section.add-feed-form {
+	background-color: rgba(0,0,0,0.3);	
+}
+
+section.add-feed-form md-card {
 	background-color: white;
 	min-width: 30%;
 }
 
-section.pop-up md-input-container {
+section.add-feed-form md-input-container {
 	padding-botom: 0.5em;
 }
 
-section.pop-up button[type="submit"] {
+section.add-feed-form button[type="submit"] {
 	margin: 9px 0 9px;
 }
 
-section.pop-up md-progress-circular {
+section.add-feed-form md-progress-circular {
 	-webkit-transform: scale(0.5) !important;
 	-ms-transform: scale(0.5) !important;
 	-o-transform: scale(0.5) !important;

@@ -11,40 +11,27 @@
 <!-- Main content -->
 <section layout="row" flex>
 	<md-content layout="column" layout-fill layout-align="center" flex>
-		<article class="no-content" ng-hide="vm.posts">
+		<article class="no-content" ng-hide="vm.loadingFeed || vm.posts">
 			<header>
 				<h1 class="text-script text-muted">Is that your final answer?</h1>
 				<h2 class="text-muted">No content to display...</h2>
-				<h3>{{vm.example}}</h3>
+				<h3 ng-bind="vm.example"></h3>
 			</header>
-			<md-button class="md-button md-primary md-raised" ng-click="vm.togglePopUp()">Add feed</md-button>
+			<md-button class="md-button md-primary md-raised" ng-click="vm.toggleAddFeedForm()">Add feed</md-button>
 		</article>
 		<section layout="row" layout-align="center center" ng-show="vm.loadingFeed">
 			<md-progress-circular md-mode="indeterminate" ></md-progress-circular>
 		</section>
-		<titan-feeds class="content" layout="row" layout-align="center" ng-hide="!vm.posts || vm.loadingFeed"></titan-feeds>	
+		<titan-feeds class="content" layout="row" layout-align="center" ng-show="vm.posts && !vm.loadingFeed"></titan-feeds>	
 		<footer class="footer">
 		    <small class="text-muted">
-		      <span class="glyphicon glyphicon-heart"></span> 4 evah.
+		      <span class="glyphicon glyphicon-heart"></span> 4 evah
 		    </small>
 		</footer>
 	</md-content>
 	<titan-sidebar></titan-sidebar>
 </section>
 
-<!-- Pop Up -->
-<section class="pop-up" ng-show="vm.popUp" ng-keyup="vm.togglePopUp($event)" layout="row" layout-fill layout-align="center center">
-	<md-card class=".md-whiteframe-z2">
-		<md-card-content>
-			<md-button class="pull-right md-button" ng-click="vm.togglePopUp()" aria-label><span class="text-muted glyphicon glyphicon-remove"></span></md-button>
-			<form name="vm.form" novalidate ng-submit="vm.addFeed(vm.feedUrl)">
-				<md-input-container>
-					<label for="feedUrl">Feed URL</label>
-					<input type="url" name="feedUrl" ng-model="vm.feedUrl" ng-required="url"/>
-				</md-input-container>
-				<md-button type="submit" name="submit" ng-disabled="!vm.feedUrl" class="md-button md-primary md-raised" ng-hide="vm.addingFeed">Submit</md-button>
-				<md-progress-circular md-mode="indeterminate" ng-show="vm.addingFeed"></md-progress-circular>
-			</form>
-		</md-card-content>
-	</md-card>
-</section>
+<!-- Pop Ups -->
+<titan-add-feed-form class="add-feed-form" ng-show="vm.addFeedForm" ng-keyup="vm.toggleAddFeedForm($event)" layout="row" layout-fill layout-align="center center"></titan-add-feed-form>
+<titan-standard-pop-up class="pop-up" ng-show="vm.popUp.show" ng-keyup="vm.togglePopUp($event)" layout="row" layout-fill layout-align="center"></titan-standard-pop-up>

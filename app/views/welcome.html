@@ -5,8 +5,11 @@
 				<h1>Beta</h1>
 			</header>
 			<small><p>This app is for demonstration purposes. It makes use of HTML5 WebStorage API to ensure a personalized experience as long as the user keeps using the same browser. <strong>No personal information is stored in the server.</strong></p>
-			<p>This app is built with AngularJS, Bootstrap, Angular Material, AngularFire, Firebase, Grunt, Karma, Jasmine, PhantomJS... and love <span class="glyphicon glyphicon-heart"></span></p></small>
-			<md-button class="md-raised md-primary" ng-click="vm.signUp()">Enter the void</md-button>
+			<p>This app is built with AngularJS, Bootstrap, Angular Material, AngularFire, Firebase, Google Feed API, Grunt, Karma, Jasmine, PhantomJS... and love <span class="glyphicon glyphicon-heart"></span></p></small>
+			<md-button class="md-raised md-primary" ng-click="vm.signUp()" ng-hide="vm.creatingAccount">Enter the void</md-button>
+			<section ng-show="vm.creatingAccount">
+				<md-progress-circular md-mode="indeterminate"></md-progress-circular>
+			</section>
 		</article>
 	</section>
 </section>

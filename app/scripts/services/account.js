@@ -85,11 +85,12 @@ function accountService ($q, $log, $firebaseObj, $firebaseArr, FIREBASE_URL) {
 		}
 
 		var deferred = $q.defer();
-		ref.child('subscriptions').push(feedKey, function(e) {
+		var childRef = ref.child('subscriptions/' + feedKey);
+		childRef.set(true, function(e) {
 			if (e) {
 				deferred.reject(e);
 			} else {
-				deferred.resolve();
+				deferred.resolve(childRef.key());
 			}
 		});
 

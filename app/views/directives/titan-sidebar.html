@@ -1,11 +1,11 @@
 <md-sidenav  layout="column" class="md-sidenav-right md-whiteframe-z2" md-component-id="right" md-is-locked-open="$mdMedia('gt-md')">
 	<section>
-		<md-button class="md-button md-primary" ng-click="vm.togglePopUp()"><span class="glyphicon glyphicon-plus"></span> Add feed</md-button>
+		<md-button class="md-button md-primary" ng-click="vm.toggleAddFeedForm()"><span class="glyphicon glyphicon-plus"></span> Add feed</md-button>
 	</section>
 	<section ng-show="vm.subscriptions">
-		<h3><strong>Your feeds</strong></h3>
+		<h2><strong>Your feeds</strong></h3>
 		<ul class="list-unstyled">
-			<li ng-repeat="feed in vm.subscriptions"><a class="btn btn-link" ng-click="vm.toggleSelectedFeed(feed.$value); vm.toggleRight()" ng-bind-html="feed.$value" ng-class="{disabled: vm.selected === feed.$value}"/></li>
+			<li ng-repeat="feed in vm.subscriptions"><a class="btn btn-link" ng-click="vm.loadFeed(feed.$id); vm.toggleRight()" ng-bind-html="feed.$id" ng-class="{disabled: vm.selected === feed.$id}"/></li>
 		</ul>
 	</section>
 </md-sidenav>

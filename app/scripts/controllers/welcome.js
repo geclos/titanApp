@@ -24,6 +24,7 @@ function welcomeCtrl($scope, $location, $log, Account, Auth) {
 	vm.signUp = signUp;
 
 	function signUp() {
+		vm.creatingAccount = true;
 		var accountKey = localStorage.getItem('accountKey'); 
 		if (accountKey) {
 			Account.getAccount(accountKey)

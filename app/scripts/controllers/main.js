@@ -12,7 +12,8 @@ angular.module('titanApp')
 	.controller('mainCtrl', mainCtrl);
 
 mainCtrl.$inject = [
-	'$log',
+	'$q',
+	'$timeout',
 	'$mdSidenav',
 	'Account',
 	'Feed',
@@ -21,40 +22,55 @@ mainCtrl.$inject = [
   ];
 
 /* @ngInject */
-function mainCtrl($log, $mdSidenav, Account, Feed, Post, XMLParser) {
+function mainCtrl($q, $timeout, $mdSidenav, Account, Feed, Post, XMLParser) {
 	/* jshint validthis: true */
 	var vm = this;
-	var feedKey, feedCat, googleFeedObj;
 
 	vm.addFeed = addFeed;
+	vm.loadFeed = loadFeed;
+	vm.popUp = {};
 	vm.requestFeedUpdate = requestFeedUpdate;
 	vm.subscriptions = getSubscriptions();
+	vm.toggleAddFeedForm = toggleAddFeedForm;
 	vm.togglePopUp = togglePopUp;
 	vm.toggleRight = toggleRight;
-	vm.toggleSelectedFeed = toggleSelectedFeed;
 
 	function addFeed(feedUrl, category) {
 		vm.addingFeed = true;
-		feedCat = category ? category : null; //TODO...
 		return XMLParser.retrieveFeed(feedUrl)
-			.then(setFeed)
-			.then(setPosts)
-			.then(setSubscription)
+			.then(asyncOperations)
 			.then(addFeedSuccess);
 	}
 
-	function addFeedSuccess() {
-		$log.info(feedKey + ' was succesfully added.');
+	function asyncOperations(googleFeedObj) {
+		var promises = [];
+		promises.push(setFeed(googleFeedObj), 
+			setSubscription(googleFeedObj.title), 
+			setPosts(googleFeedObj.title, googleFeedObj));
+		return $q.all(promises);
+	}
+
+	function setFeed(feedObj) {
+		return Feed.setFeed(feedObj);
+	}
+
+	function setPosts(feedKey, feedObj) {
+		return Post.setPosts(feedKey, feedObj.entries);
+	}
+
+	function setSubscription(feedKey) {
+		return Account.setSubscription(feedKey);
+	}
+	
+	function addFeedSuccess(results) {
+		var feedKey = results[2];
+		vm.popUp.message = feedKey + ' was succesfully added.';
 		vm.togglePopUp();
+		vm.toggleAddFeedForm();
 		delete vm.feedUrl;
 		delete vm.addingFeed;
 		vm.form.$setPristine();
 		vm.form.$setUntouched();
-		return true;
-	}
-
-	function feedUpdateSuccess() {
-		$log.info(feedKey + ' was succesfully updated.');
 		return true;
 	}
 
@@ -68,66 +84,83 @@ function mainCtrl($log, $mdSidenav, Account, Feed, Post, XMLParser) {
 		timeElapsed = Math.round(timeElapsed / 1000 / 60);
 		if (timeElapsed > 60) {
 			updateFeed()
+				.then(function() { return loadFeed(feedTitle); })
 				.then(feedUpdateSuccess);
 		} else {
-			$log.info('Feed is up to date. Last update: ' + 
-				new Date(lastUpdate));
+			vm.popUp.message = 'Feed is up to date. Last update: ' + new Date(lastUpdate);
+			vm.togglePopUp();
 		}
 	}
-
-	function setFeed(obj) {
-		googleFeedObj = obj;
-		return Feed.setFeed(googleFeedObj);
+	
+	function updateFeed() {
+		return XMLParser.retrieveFeed(vm.feed.link)
+			.then(asyncUpdate);
 	}
 
-	function setPosts(key) {
-		feedKey = key;
-		return Post.setPosts(feedKey, googleFeedObj.entries);
+	function feedUpdateSuccess() {
+		vm.popUp.message = vm.feed.title + ' was succesfully updated.';
+		vm.togglePopUp();
+		return true;
 	}
 
-	function setSubscription() {
-		return Account.setSubscription(feedKey);
+	function asyncUpdate(feedObj) { 
+		var promises = [];
+		promises.push(Feed.updateFeed(vm.feed.title, {lastUpdate : Date.now()}), 
+			Post.setPosts(vm.feed.title, feedObj.entries));
+		return $q.all(promises);
 	}
 
-	function togglePopUp(ev) {
+	function toggleAddFeedForm(ev) {
 		if (!ev || ev && ev.keyCode === 27) {
-			vm.popUp = vm.popUp ? false : true;
+			vm.addFeedForm = vm.addFeedForm ? false : true;
 			vm.form.$setPristine();
 			vm.form.$setUntouched();
 			vm.form.feedUrl.$setViewValue('');
 			return true;
+		} else {
+			return false;
 		}
-		return false;
 	}
 
-	function toggleSelectedFeed(key) {
-		feedKey = key;
-		vm.selected = key;
+	function togglePopUp(ev) {
+		if (vm.popUp.show) {
+			return $timeout(timeOutPopUp, 3000);
+		} else {
+			vm.popUp.show = true;
+			return $timeout(timeOutPopUp, 3000);
+		}
+	}
+
+	function timeOutPopUp() {
+		delete vm.popUp.show;
+		return true;
+	}
+
+	function loadFeed(feedKey) {
+		vm.selected = feedKey;
 		vm.loadingFeed = true;
-		vm.posts = true;
-		return Feed.getFeed(feedKey)
-			.then(displayPosts);
+		var promises = [];
+		promises.push(getFeed(feedKey), getPosts(feedKey));
+		return $q.all(promises).then(displayResults);
 	}
 
-	function displayPosts(feed) { 
-		return Post.getPost(feedKey)
-			.then(function(posts) {
-				vm.feed = feed;
-				vm.posts = posts;
-				delete vm.loadingFeed;
-				return true; 
-			});
+	function getFeed(feedKey) {
+		return Feed.getFeed(feedKey);
+	}
+	
+	function getPosts(feedKey) { 
+		return Post.getPost(feedKey);
+	}
+	
+	function displayResults(results) {
+		vm.feed = results[0];
+		vm.posts = results[1];
+		delete vm.loadingFeed;
+		return true; 
 	}
 
 	function toggleRight() {
 		return $mdSidenav('right').toggle();
-	}
-
-	function updateFeed() {
-		return XMLParser.retrieveFeed(vm.feed.link)
-			.then(function(feedObj) { return Post.setPosts(vm.feed.title, feedObj.entries); })
-			.then(function() { return Feed.updateFeed(vm.feed.title, {lastUpdate : Date.now()}); })
-			.catch(function(e) {$log.error(e);});
 	}
 }
 

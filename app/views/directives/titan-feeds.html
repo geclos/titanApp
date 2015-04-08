@@ -6,7 +6,7 @@
 			<small class="text-muted" style="margin-top:2em;">Last Updated: <span ng-bind-html="vm.feed.lastUpdate | date : 'medium'"></span></small>
 		</header>
 		<article layout="row" ng-repeat="post in vm.posts">
-			<aside flex="30">
+			<aside class="clearfix" flex="30">
 				<img ng-src="{{post.mainImg}}" alt="mainImg" style="" ng-show="post.mainImg">
 			</aside>
 			<section flex="70">

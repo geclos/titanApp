@@ -57,9 +57,9 @@ function postService($q, $log, $firebaseObj, $firebaseArr, FIREBASE_URL) {
 			var postRef = ref.child('/' + feedKey + '/' + postProp);
 			return $firebaseObj(postRef).$loaded();
 		} else {
-			var postsRef = ref.child('/' + feedKey);
+			var postsRef = ref.child('/' + feedKey).orderByChild('publishedDate');
 			return $firebaseArr(postsRef).$loaded()
-				.then(function(feedsArr) { return feedsArr.slice(0, feedsArr.length - 1); });
+				.then(function(feedsArr) { return feedsArr.slice(1).reverse(); });
 		}
 	}
 
@@ -105,10 +105,9 @@ function postService($q, $log, $firebaseObj, $firebaseArr, FIREBASE_URL) {
 		var postsArr = [];
 		var deferred = $q.defer();
 		var childRef = ref.child(feedKey);
-		
 		for (var i = 0; i <= entriesArr.length - 1; i++) {
 		 	post = new Post(entriesArr[i]);
-		 	if (Date.parse(post.publishedDate) > lastDatePublished) {
+		 	if (post.publishedDate > lastDatePublished) {
 				postsArr.push(post);
 		 	} else {
 		 		break;
@@ -120,9 +119,9 @@ function postService($q, $log, $firebaseObj, $firebaseArr, FIREBASE_URL) {
 					 		if (e) {
 					 			deferred.reject(e);
 					 		} else if (i === postsArr.length - 1) {
-					 			deferred.resolve();
+					 			deferred.resolve(childRef.key());
 								var setNewLastDate = childRef.child('lastDatePublished')
-									.set(Date.parse(postsArr[0].publishedDate), 
+									.set(postsArr[0].publishedDate, 
 										function(e) {
 											if (e) {$log.error(e);}
 										});
@@ -130,7 +129,7 @@ function postService($q, $log, $firebaseObj, $firebaseArr, FIREBASE_URL) {
 					 	});
 			});
 		} else {
-			deferred.resolve();
+			deferred.resolve(childRef.key());
 		}
 
 		return deferred.promise;
@@ -146,7 +145,7 @@ function postService($q, $log, $firebaseObj, $firebaseArr, FIREBASE_URL) {
 		 		if (e) {
 		 			deferred.reject(e);
 		 		} else if (i === entriesArr.length - 1) {
-		 			deferred.resolve();
+		 			deferred.resolve(childRef.key());
 					var setNewLastDate = childRef.child('lastDatePublished')
 						.set(Date.parse(entriesArr[0].publishedDate), 
 							function(e) {
