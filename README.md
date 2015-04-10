@@ -5,3 +5,4 @@ This app is built with AngularJS, Bootstrap, Angular Material, AngularFire, Fire
 
 ##Work in progress##
 Demo: https://shining-fire-3410.firebaseapp.com/#/
+Use Chrome. Keep the console open.
