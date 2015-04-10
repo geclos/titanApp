@@ -146,7 +146,7 @@ section.pop-up, section.add-feed-form {
 
 section.pop-up article.pop-up-message {
 	font-weight: bold;
-    color: darkgreen;
+    color: DarkGreen;
 	padding: .5em;
 	margin-top: 5%;
 	max-width: 20%;
@@ -163,6 +163,10 @@ section.add-feed-form {
 section.add-feed-form md-card {
 	background-color: white;
 	min-width: 30%;
+}
+
+section.add-feed-form span.add-feed-form-hint small {
+	font-style: italic;
 }
 
 section.add-feed-form md-input-container {

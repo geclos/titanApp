@@ -6,6 +6,7 @@
 				<md-input-container>
 					<label for="feedUrl">Feed URL</label>
 					<input type="url" name="feedUrl" ng-model="vm.feedUrl" ng-required="url"/>
+					<span class="add-feed-form-hint"><small class="text-muted">Keep in mind it has to be a valid feed URL. Otherwise it won't work. Example: http://feeds.feedburner.com/nybooks</small></span>
 				</md-input-container>
 				<md-button type="submit" name="submit" ng-disabled="!vm.feedUrl" class="md-button md-primary md-raised" ng-hide="vm.addingFeed">Submit</md-button>
 				<md-progress-circular md-mode="indeterminate" ng-show="vm.addingFeed"></md-progress-circular>
